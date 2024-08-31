@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import aboutImg from "@/assets/about-astro.png";
+import sunsetBeach from "@/assets/sunset-beach.jpeg";
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
@@ -12,22 +12,33 @@ const meta = {
 <PageLayout meta={meta}>
 	<div class="space-y-6">
 		<h1 class="title">About</h1>
-		<p>
-			Hey there! I'm thrilled you've stopped by. I'm a passionate coder with a love for all things
-			tech, especially blockchains and command-line interfaces. When I'm not immersed in lines of
-			code, you'll find me sipping on a warm cup of tea, tinkering with hobby projects, or diving
-			into the latest PS5 game. I also enjoy the occasional swim and love exploring coastal islands
-			- there's something magical about the sea breeze and sandy shores! I'm always excited to chat
-			about coding, gaming, or any of my adventures, so feel free to reach out!
-		</p>
 		<div class="flex justify-center">
 			<Image
-				alt="A cartoon cactus looking at the 'Astro.build' logo"
+				alt="A beautiful sunset at the beach"
 				fetchpriority="high"
 				loading="eager"
-				src={aboutImg}
+				src={sunsetBeach}
 			/>
 		</div>
+		<p class="text-md mb-8 leading-relaxed">
+			Hey there! I'm thrilled you've stopped by. As a passionate software engineer, I specialize in
+			blockchain technology and love crafting efficient command-line interfaces. My journey in tech
+			has been an exciting adventure, filled with constant learning and innovation.
+		</p>
+		<p class="text-md mb-8 leading-relaxed">When I'm not immersed in code, you'll often find me:</p>
+		<ul class="text-md mb-8 list-inside list-disc leading-relaxed">
+			<li>Sipping on a warm cup of Earl Grey tea</li>
+			<li>Tinkering with Arduino-based hobby projects</li>
+			<li>Exploring the latest PS5 games (currently obsessed with Assasin's Creeed Valhalla!)</li>
+			<li>Taking refreshing swims in the nearby ocean</li>
+			<li>Planning my next coastal island getaway</li>
+		</ul>
+		<p class="text-md mb-8 leading-relaxed">
+			There's something truly magical about the combination of sea breeze, sandy shores, and a good
+			coding problem to solve. I'm always excited to chat about technology, gaming, or any of my
+			adventures. Feel free to reach out – I'd love to hear your stories too!
+		</p>
+
 		<p>
 			Want to connect or see what I'm working on? Check out my <a
 				aria-label="github repository"
