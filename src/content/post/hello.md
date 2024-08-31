@@ -1,6 +1,6 @@
 ---
 title: "Hello"
-description: "This post is for testing purposes only."
+description: "This post is for testing purposes only. Currently, trying to see if the posts and tags are working correctly."
 publishDate: "31 August 2024"
 tags: ["test", "hello"]
 ---
