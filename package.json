@@ -1,6 +1,6 @@
 {
 	"name": "shariff-dev",
-	"version": "4.9.0",
+	"version": "1.0.0",
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
