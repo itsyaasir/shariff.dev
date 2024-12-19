@@ -14,10 +14,12 @@
 		"check": "astro check"
 	},
 	"dependencies": {
+		"@astrojs/check": "^0.9.3",
 		"@astrojs/mdx": "3.1.5",
 		"@astrojs/rss": "4.0.7",
 		"@astrojs/sitemap": "3.1.6",
 		"@astrojs/tailwind": "5.1.0",
+		"@astrolib/analytics": "^0.6.1",
 		"astro": "4.15.1",
 		"astro-expressive-code": "0.36.1",
 		"astro-icon": "^1.1.1",
@@ -31,10 +33,9 @@
 		"satori": "0.10.14",
 		"satori-html": "^0.3.2",
 		"sharp": "^0.33.5",
+		"typescript": "^5.5.4",
 		"unified": "^11.0.5",
-		"unist-util-visit": "^5.0.0",
-		"@astrojs/check": "^0.9.3",
-		"typescript": "^5.5.4"
+		"unist-util-visit": "^5.0.0"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.3",

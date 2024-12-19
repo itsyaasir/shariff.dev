@@ -1,0 +1,10 @@
+---
+import { GoogleAnalytics } from "@astrolib/analytics";
+
+const analyticsConfig = {
+	id: import.meta.env.PUBLIC_GA_ID,
+	partytown: true,
+};
+---
+
+<GoogleAnalytics {...analyticsConfig} />
