@@ -14,7 +14,8 @@ export const siteConfig: SiteConfig = {
 		},
 	},
 	// Meta property used as the default description meta property
-	description: "Yasir's Playground - A personal blog for Yasir Shariff",
+	description:
+		"Yasir Shariff - Rust Developer & Blockchain Consultant | Specializing in Cloud Solutions & Technical Architecture",
 	// HTML lang property, found in src/layouts/Base.astro L:18
 	lang: "en-US",
 	// Meta property, found in src/components/BaseHead.astro L:42
@@ -22,7 +23,8 @@ export const siteConfig: SiteConfig = {
 	// Option to sort posts by updatedDate if set to true (if property exists). Default (false) will sort by publishDate
 	sortPostsByUpdatedDate: false,
 	// Meta property used to construct the meta title property, found in src/components/BaseHead.astro L:11
-	title: "Yasir's Playground",
+	title:
+		"Yasir Shariff - Rust Developer & Blockchain Consultant | Specializing in Cloud Solutions & Technical Architecture",
 	webmentions: {
 		// Webmention.io API endpoint. Get your own here: https://webmention.io/, and follow this blog post: https://astro-cactus.chriswilliams.dev/posts/webmentions/
 		link: "",
@@ -30,18 +32,22 @@ export const siteConfig: SiteConfig = {
 };
 
 // Used to generate links in both the Header & Footer.
-export const menuLinks: { path: string; title: string }[] = [
+export const menuLinks: Array<{ title: string; path: string }> = [
 	{
-		path: "/",
 		title: "Home",
+		path: "/",
 	},
 	{
-		path: "/about/",
 		title: "About",
+		path: "/about",
 	},
 	{
-		path: "/posts/",
 		title: "Blog",
+		path: "/posts",
+	},
+	{
+		title: "Consultant",
+		path: "/consultant",
 	},
 ];
 

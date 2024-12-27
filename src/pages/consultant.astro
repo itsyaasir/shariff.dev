@@ -1,0 +1,134 @@
+---
+import PageTitle from "@/components/PageTitle.astro";
+import Base from "@/layouts/Base.astro";
+
+const meta = {
+	title: "Consultancy Services | Yasir Shariff",
+	description:
+		"Professional software development and technical consultancy services by Yasir Shariff. Specializing in Rust, Python, Blockchain, and Cloud Solutions.",
+};
+
+// Define skills with descriptions
+const coreSkills = [
+	{ name: "Rust", description: "Systems programming, WebAssembly, CLI tools" },
+	{ name: "Python", description: "Backend development, Data processing, Automation" },
+	{ name: "Blockchain", description: "Smart contracts, DeFi protocols, Web3" },
+];
+
+const cloudSkills = [
+	{ name: "AWS", description: "EC2, Lambda, ECS, S3, CloudFormation" },
+	{ name: "GCP", description: "Compute Engine, Cloud Functions, Kubernetes" },
+	{ name: "Azure", description: "Azure Functions, AKS, DevOps" },
+];
+
+const toolsAndFrameworks = [
+	{ name: "Docker", description: "Containerization & orchestration" },
+	{ name: "Kubernetes", description: "Container orchestration & scaling" },
+	{ name: "Git", description: "Version control & collaboration" },
+	{ name: "Web3.js/Ethers.js", description: "Blockchain interaction" },
+	{ name: "Solidity", description: "Smart contract development" },
+];
+---
+
+<Base meta={meta}>
+	<div class="space-y-6">
+		<PageTitle>
+			<h1 class="text-2xl font-bold tracking-tight sm:text-3xl">Consultancy Services</h1>
+		</PageTitle>
+
+		<div class="prose prose-sm prose-cactus mt-12">
+			<section class="mb-8">
+				<h2 class="mb-4 text-xl font-semibold">What I Offer</h2>
+				<p class="mb-4">
+					With over 5 years of experience in software development, I provide expert consultancy
+					services specializing in modern technologies and solutions that help businesses innovate
+					and scale.
+				</p>
+				<ul class="list-disc space-y-2 pl-6">
+					<li>Rust Development & Tooling</li>
+					<li>Python Solutions & Automation</li>
+					<li>Blockchain Development</li>
+					<li>Cloud Architecture & Solutions</li>
+					<li>Performance Optimization</li>
+					<li>Technical Architecture Design</li>
+				</ul>
+			</section>
+
+			<section class="mb-12">
+				<h2 class="mb-6 text-xl font-semibold">Technical Expertise</h2>
+
+				<!-- Core Skills -->
+				<div class="mb-8">
+					<h3 class="mb-3 text-lg font-medium">Core Technologies</h3>
+					<ul class="list-disc space-y-2 pl-6">
+						{
+							coreSkills.map((skill) => (
+								<li>
+									<span class="font-medium">{skill.name}</span> - {skill.description}
+								</li>
+							))
+						}
+					</ul>
+				</div>
+
+				<!-- Cloud Expertise -->
+				<div class="mb-8">
+					<h3 class="mb-3 text-lg font-medium">Cloud Platforms</h3>
+					<ul class="list-disc space-y-2 pl-6">
+						{
+							cloudSkills.map((skill) => (
+								<li>
+									<span class="font-medium">{skill.name}</span> - {skill.description}
+								</li>
+							))
+						}
+					</ul>
+				</div>
+
+				<!-- Tools & Frameworks -->
+				<div class="mb-8">
+					<h3 class="mb-3 text-lg font-medium">Tools & Frameworks</h3>
+					<ul class="list-disc space-y-2 pl-6">
+						{
+							toolsAndFrameworks.map((skill) => (
+								<li>
+									<span class="font-medium">{skill.name}</span> - {skill.description}
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</section>
+
+			<section class="mb-8">
+				<h2 class="mb-4 text-xl font-semibold">Why Work With Me</h2>
+				<ul class="list-disc space-y-2 pl-6">
+					<li>
+						<span class="font-medium">Technical Expertise</span> - Deep knowledge in Rust, Python, and
+						Blockchain technologies with a focus on building efficient, scalable solutions
+					</li>
+					<li>
+						<span class="font-medium">Cloud Solutions</span> - Expert in designing and implementing cloud-native
+						architectures and solutions
+					</li>
+					<li>
+						<span class="font-medium">Modern Tech Stack</span> - Hands-on experience with cutting-edge
+						technologies and best practices in software development
+					</li>
+				</ul>
+			</section>
+
+			<section class="mb-8">
+				<h2 class="mb-4 text-xl font-semibold">Get in Touch</h2>
+				<p class="mb-4">
+					Ready to build something amazing? Visit <a
+						href="https://shariffconsultancy.com"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-link">shariffconsultancy.com</a
+					> or reach out to discuss how I can help bring your ideas to life.
+				</p>
+			</section>
+		</div>
+	</div>
+</Base>
