@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import mdx from "@astrojs/mdx";
+import partytown from "@astrojs/partytown";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
-import partytown from "@astrojs/partytown";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
@@ -30,7 +30,7 @@ export default defineConfig({
 			nesting: true,
 		}),
 		sitemap(),
-    mdx(),
+		mdx(),
 		partytown({
 			config: {
 				forward: ["dataLayer.push"],
