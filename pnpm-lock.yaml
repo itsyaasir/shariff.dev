@@ -13,7 +13,7 @@ importers:
         version: 0.9.3(prettier-plugin-astro@0.14.1)(prettier@3.3.3)(typescript@5.5.4)
       '@astrojs/mdx':
         specifier: 3.1.5
-        version: 3.1.5(astro@4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4))
+        version: 3.1.5(astro@4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4))
       '@astrojs/partytown':
         specifier: ^2.1.2
         version: 2.1.2
@@ -21,17 +21,17 @@ importers:
         specifier: 4.0.7
         version: 4.0.7
       '@astrojs/sitemap':
-        specifier: 3.1.6
-        version: 3.1.6
+        specifier: 3.3.0
+        version: 3.3.0
       '@astrojs/tailwind':
         specifier: 5.1.0
-        version: 5.1.0(astro@4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4))(tailwindcss@3.4.10)
+        version: 5.1.0(astro@4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4))(tailwindcss@3.4.10)
       astro:
         specifier: 4.15.1
-        version: 4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4)
+        version: 4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4)
       astro-expressive-code:
         specifier: 0.36.1
-        version: 0.36.1(astro@4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4))
+        version: 0.36.1(astro@4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4))
       astro-icon:
         specifier: ^1.1.1
         version: 1.1.1
@@ -186,8 +186,8 @@ packages:
   '@astrojs/rss@4.0.7':
     resolution: {integrity: sha512-ZEG55XFB19l+DplUvBISmz04UbjDtKliRO4Y5+ERRhAMjgCVVobEBNE6ZwWG1h6orWUocy4nfPihKXDyB73x9g==}
 
-  '@astrojs/sitemap@3.1.6':
-    resolution: {integrity: sha512-1Qp2NvAzVImqA6y+LubKi1DVhve/hXXgFvB0szxiipzh7BvtuKe4oJJ9dXSqaubaTkt4nMa6dv6RCCAYeB6xaQ==}
+  '@astrojs/sitemap@3.3.0':
+    resolution: {integrity: sha512-nYE4lKQtk+Kbrw/w0G0TTgT724co0jUsU4tPlHY9au5HmTBKbwiCLwO/15b1/y13aZ4Kr9ZbMeMHlXuwn0ty4Q==}
 
   '@astrojs/tailwind@5.1.0':
     resolution: {integrity: sha512-BJoCDKuWhU9FT2qYg+fr6Nfb3qP4ShtyjXGHKA/4mHN94z7BGcmauQK23iy+YH5qWvTnhqkd6mQPQ1yTZTe9Ig==}
@@ -955,8 +955,8 @@ packages:
   '@types/node@17.0.45':
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
 
-  '@types/node@22.4.2':
-    resolution: {integrity: sha512-nAvM3Ey230/XzxtyDcJ+VjvlzpzoHwLsF7JaDRfoI0ytO0mVheerNmM45CtA0yOILXwXXxOrcUWH3wltX+7PSw==}
+  '@types/node@22.13.17':
+    resolution: {integrity: sha512-nAJuQXoyPj04uLgu+obZcSmsfOenUg6DxPKogeUy6yNCFwWaj5sBF8/G/pNo8EtBJjAfSVgfIlugR/BCOleO+g==}
 
   '@types/sax@1.2.7':
     resolution: {integrity: sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==}
@@ -2762,9 +2762,9 @@ packages:
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
-  sitemap@7.1.2:
-    resolution: {integrity: sha512-ARCqzHJ0p4gWt+j7NlU5eDlIO9+Rkr/JhPFZKKQ1l5GCus7rJH4UdrlVAh0xC/gDS/Qir2UMxqYNHtsKr2rpCw==}
-    engines: {node: '>=12.0.0', npm: '>=5.6.0'}
+  sitemap@8.0.0:
+    resolution: {integrity: sha512-+AbdxhM9kJsHtruUF39bwS/B0Fytw6Fr1o4ZAIAEqA6cke2xcoO2GleBw9Zw7nRzILVEgz7zBM5GiTJjie1G9A==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     hasBin: true
 
   source-map-js@1.2.0:
@@ -2934,8 +2934,8 @@ packages:
   ultrahtml@1.2.0:
     resolution: {integrity: sha512-vxZM2yNvajRmCj/SknRYGNXk2tqiy6kRNvZjJLaleG3zJbSh/aNkOqD1/CVzypw8tyHyhpzYuwQgMMhUB4ZVNQ==}
 
-  undici-types@6.19.8:
-    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
+  undici-types@6.20.0:
+    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
   undici@6.19.8:
     resolution: {integrity: sha512-U8uCCl2x9TK3WANvmBavymRzxbfFYG+tAu+fgx3zxQy3qdagQqBLwJVrdyO1TBfUXvfKveMKJZhpvUYoOjM+4g==}
@@ -3243,6 +3243,9 @@ packages:
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
@@ -3330,12 +3333,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@3.1.5(astro@4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4))':
+  '@astrojs/mdx@3.1.5(astro@4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4))':
     dependencies:
       '@astrojs/markdown-remark': 5.2.0
       '@mdx-js/mdx': 3.0.1
       acorn: 8.12.1
-      astro: 4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4)
+      astro: 4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4)
       es-module-lexer: 1.5.4
       estree-util-visit: 2.0.0
       gray-matter: 4.0.3
@@ -3364,15 +3367,15 @@ snapshots:
       fast-xml-parser: 4.4.0
       kleur: 4.1.5
 
-  '@astrojs/sitemap@3.1.6':
+  '@astrojs/sitemap@3.3.0':
     dependencies:
-      sitemap: 7.1.2
+      sitemap: 8.0.0
       stream-replace-string: 2.0.0
-      zod: 3.23.8
+      zod: 3.24.2
 
-  '@astrojs/tailwind@5.1.0(astro@4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4))(tailwindcss@3.4.10)':
+  '@astrojs/tailwind@5.1.0(astro@4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4))(tailwindcss@3.4.10)':
     dependencies:
-      astro: 4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4)
+      astro: 4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4)
       autoprefixer: 10.4.20(postcss@8.4.39)
       postcss: 8.4.39
       postcss-load-config: 4.0.2(postcss@8.4.39)
@@ -4078,17 +4081,17 @@ snapshots:
 
   '@types/node@17.0.45': {}
 
-  '@types/node@22.4.2':
+  '@types/node@22.13.17':
     dependencies:
-      undici-types: 6.19.8
+      undici-types: 6.20.0
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 22.13.17
 
   '@types/tar@6.1.13':
     dependencies:
-      '@types/node': 22.4.2
+      '@types/node': 22.13.17
       minipass: 4.2.8
 
   '@types/unist@2.0.11': {}
@@ -4097,7 +4100,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 22.4.2
+      '@types/node': 22.13.17
     optional: true
 
   '@ungap/structured-clone@1.2.0': {}
@@ -4206,9 +4209,9 @@ snapshots:
 
   astring@1.8.6: {}
 
-  astro-expressive-code@0.36.1(astro@4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4)):
+  astro-expressive-code@0.36.1(astro@4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4)):
     dependencies:
-      astro: 4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4)
+      astro: 4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4)
       rehype-expressive-code: 0.36.1
 
   astro-icon@1.1.1:
@@ -4220,7 +4223,7 @@ snapshots:
       - debug
       - supports-color
 
-  astro@4.15.1(@types/node@22.4.2)(rollup@4.21.0)(typescript@5.5.4):
+  astro@4.15.1(@types/node@22.13.17)(rollup@4.21.0)(typescript@5.5.4):
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/internal-helpers': 0.4.1
@@ -4280,8 +4283,8 @@ snapshots:
       tsconfck: 3.1.1(typescript@5.5.4)
       unist-util-visit: 5.0.0
       vfile: 6.0.3
-      vite: 5.4.2(@types/node@22.4.2)
-      vitefu: 0.2.5(vite@5.4.2(@types/node@22.4.2))
+      vite: 5.4.2(@types/node@22.13.17)
+      vitefu: 0.2.5(vite@5.4.2(@types/node@22.13.17))
       which-pm: 3.0.0
       xxhash-wasm: 1.0.2
       yargs-parser: 21.1.1
@@ -6444,7 +6447,7 @@ snapshots:
 
   sisteransi@1.0.5: {}
 
-  sitemap@7.1.2:
+  sitemap@8.0.0:
     dependencies:
       '@types/node': 17.0.45
       '@types/sax': 1.2.7
@@ -6629,7 +6632,7 @@ snapshots:
 
   ultrahtml@1.2.0: {}
 
-  undici-types@6.19.8: {}
+  undici-types@6.20.0: {}
 
   undici@6.19.8: {}
 
@@ -6723,18 +6726,18 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.2
 
-  vite@5.4.2(@types/node@22.4.2):
+  vite@5.4.2(@types/node@22.13.17):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.41
       rollup: 4.21.0
     optionalDependencies:
-      '@types/node': 22.4.2
+      '@types/node': 22.13.17
       fsevents: 2.3.3
 
-  vitefu@0.2.5(vite@5.4.2(@types/node@22.4.2)):
+  vitefu@0.2.5(vite@5.4.2(@types/node@22.13.17)):
     optionalDependencies:
-      vite: 5.4.2(@types/node@22.4.2)
+      vite: 5.4.2(@types/node@22.13.17)
 
   volar-service-css@0.0.61(@volar/language-service@2.4.0):
     dependencies:
@@ -6942,5 +6945,7 @@ snapshots:
       zod: 3.23.8
 
   zod@3.23.8: {}
+
+  zod@3.24.2: {}
 
   zwitch@2.0.4: {}
