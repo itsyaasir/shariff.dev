@@ -3,30 +3,29 @@ import PageTitle from "@/components/PageTitle.astro";
 import Base from "@/layouts/Base.astro";
 
 const meta = {
-	title: "Consultancy Services | Yasir Shariff",
+	title: "Consulting",
 	description:
-		"Professional software development and technical consultancy services by Yasir Shariff. Specializing in Rust, Python, Blockchain, and Cloud Solutions.",
+		"Consulting with Yasir Shariff on Rust and blockchain infrastructure, distributed backends, and production software products.",
 };
 
-// Define skills with descriptions
 const coreSkills = [
-	{ name: "Rust", description: "Systems programming, WebAssembly, CLI tools" },
-	{ name: "Python", description: "Backend development, Data processing, Automation" },
-	{ name: "Blockchain", description: "Smart contracts, DeFi protocols, Web3" },
+	{ name: "Rust", description: "Proof systems, command-line tools, libraries, and WebAssembly" },
+	{ name: "Blockchain", description: "Execution clients, RPC services, and developer tooling" },
+	{ name: "Distributed systems", description: "Backend services, routing, failover, and real-time data" },
 ];
 
-const cloudSkills = [
-	{ name: "AWS", description: "EC2, Lambda, ECS, S3, CloudFormation" },
-	{ name: "GCP", description: "Compute Engine, Cloud Functions, Kubernetes" },
-	{ name: "Azure", description: "Azure Functions, AKS, DevOps" },
+const selectedWork = [
+	{ name: "IOTA", description: "Notarization, audit trails, and proof of inclusion" },
+	{ name: "Tideblock", description: "Low-latency Solana RPC routing and failover" },
+	{ name: "Bitfinity Network", description: "Ethereum-compatible execution and JSON-RPC" },
 ];
 
 const toolsAndFrameworks = [
-	{ name: "Docker", description: "Containerization & orchestration" },
-	{ name: "Kubernetes", description: "Container orchestration & scaling" },
-	{ name: "Git", description: "Version control & collaboration" },
-	{ name: "Web3.js/Ethers.js", description: "Blockchain interaction" },
-	{ name: "Solidity", description: "Smart contract development" },
+	{ name: "Rust and Move", description: "Protocol and application libraries" },
+	{ name: "TypeScript and WebAssembly", description: "Developer interfaces and integrations" },
+	{ name: "PostgreSQL", description: "Application data and backend services" },
+	{ name: "Redpanda and Kafka", description: "Event-driven data processing" },
+	{ name: "WebSockets and Protocol Buffers", description: "Real-time communication" },
 ];
 ---
 
@@ -40,17 +39,16 @@ const toolsAndFrameworks = [
 			<section class="mb-8">
 				<h2 class="mb-4 text-xl font-semibold">What I Offer</h2>
 				<p class="mb-4">
-					With over 5 years of experience in software development, I provide expert consultancy
-					services specializing in modern technologies and solutions that help businesses innovate
-					and scale.
+					I help teams design, build, and support software where correct behavior and reliable
+					operation matter. My work spans blockchain protocols, distributed infrastructure, and
+					products used in daily business operations.
 				</p>
 				<ul class="list-disc space-y-2 pl-6">
-					<li>Rust Development & Tooling</li>
-					<li>Python Solutions & Automation</li>
-					<li>Blockchain Development</li>
-					<li>Cloud Architecture & Solutions</li>
-					<li>Performance Optimization</li>
-					<li>Technical Architecture Design</li>
+					<li>Rust libraries, proof systems, and developer tooling</li>
+					<li>Blockchain execution, RPC, and integration work</li>
+					<li>Distributed backends, routing, and failover</li>
+					<li>Product architecture and delivery</li>
+					<li>Testing, performance analysis, and production troubleshooting</li>
 				</ul>
 			</section>
 
@@ -71,12 +69,11 @@ const toolsAndFrameworks = [
 					</ul>
 				</div>
 
-				<!-- Cloud Expertise -->
 				<div class="mb-8">
-					<h3 class="mb-3 text-lg font-medium">Cloud Platforms</h3>
+					<h3 class="mb-3 text-lg font-medium">Selected Work</h3>
 					<ul class="list-disc space-y-2 pl-6">
 						{
-							cloudSkills.map((skill) => (
+							selectedWork.map((skill) => (
 								<li>
 									<span class="font-medium">{skill.name}</span> - {skill.description}
 								</li>
@@ -85,7 +82,6 @@ const toolsAndFrameworks = [
 					</ul>
 				</div>
 
-				<!-- Tools & Frameworks -->
 				<div class="mb-8">
 					<h3 class="mb-3 text-lg font-medium">Tools & Frameworks</h3>
 					<ul class="list-disc space-y-2 pl-6">
@@ -104,16 +100,16 @@ const toolsAndFrameworks = [
 				<h2 class="mb-4 text-xl font-semibold">Why Work With Me</h2>
 				<ul class="list-disc space-y-2 pl-6">
 					<li>
-						<span class="font-medium">Technical Expertise</span> - Deep knowledge in Rust, Python, and
-						Blockchain technologies with a focus on building efficient, scalable solutions
+						<span class="font-medium">End-to-end ownership</span> - I take work from architecture and
+						implementation through testing, documentation, release, and production support.
 					</li>
 					<li>
-						<span class="font-medium">Cloud Solutions</span> - Expert in designing and implementing cloud-native
-						architectures and solutions
+						<span class="font-medium">Protocol and systems experience</span> - My work includes Rust
+						proof infrastructure, an Ethereum-compatible execution client, and Solana RPC services.
 					</li>
 					<li>
-						<span class="font-medium">Modern Tech Stack</span> - Hands-on experience with cutting-edge
-						technologies and best practices in software development
+						<span class="font-medium">Product perspective</span> - Through Shariff Consultancy, I build
+						and operate Shipzen and PrismPOS, production products for logistics and business operations.
 					</li>
 				</ul>
 			</section>
@@ -121,12 +117,15 @@ const toolsAndFrameworks = [
 			<section class="mb-8">
 				<h2 class="mb-4 text-xl font-semibold">Get in Touch</h2>
 				<p class="mb-4">
-					Ready to build something amazing? Visit <a
+					Tell me what you're building and where you need help. You can <a
+						href="mailto:yasir@shariff.dev?subject=Consulting%20inquiry"
+						class="text-link">email me</a
+					> or visit <a
 						href="https://shariffconsultancy.com"
 						target="_blank"
 						rel="noopener noreferrer"
-						class="text-link">shariffconsultancy.com</a
-					> or reach out to discuss how I can help bring your ideas to life.
+						class="text-link">Shariff Consultancy</a
+					>.
 				</p>
 			</section>
 		</div>
