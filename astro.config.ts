@@ -1,8 +1,9 @@
 import fs from "node:fs";
+import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import partytown from "@astrojs/partytown";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
@@ -25,10 +26,6 @@ export default defineConfig({
 	integrations: [
 		expressiveCode(expressiveCodeOptions),
 		icon(),
-		tailwind({
-			applyBaseStyles: false,
-			nesting: true,
-		}),
 		sitemap(),
 		mdx(),
 		partytown({
@@ -38,6 +35,7 @@ export default defineConfig({
 		}),
 	],
 	markdown: {
+		processor: unified({
 		rehypePlugins: [
 			[
 				rehypeExternalLinks,
@@ -53,6 +51,7 @@ export default defineConfig({
 				className: [""],
 			},
 		},
+		}),
 	},
 	// https://docs.astro.build/en/guides/prefetch/
 	prefetch: true,
@@ -62,7 +61,7 @@ export default defineConfig({
 		optimizeDeps: {
 			exclude: ["@resvg/resvg-js"],
 		},
-		plugins: [rawFonts([".ttf", ".woff"])],
+		plugins: [tailwindcss(), rawFonts([".ttf", ".woff"])],
 	},
 });
 

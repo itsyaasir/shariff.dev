@@ -68,7 +68,7 @@ export async function GET(context: APIContext) {
 	});
 	const svg = await satori(markup(title, postDate), ogOptions);
 	const png = new Resvg(svg).render().asPng();
-	return new Response(png, {
+	return new Response(new Uint8Array(png), {
 		headers: {
 			"Cache-Control": "public, max-age=31536000, immutable",
 			"Content-Type": "image/png",
@@ -81,7 +81,7 @@ export async function getStaticPaths() {
 	return posts
 		.filter(({ data }) => !data.ogImage)
 		.map((post) => ({
-			params: { slug: post.slug },
+			params: { slug: post.id },
 			props: {
 				pubDate: post.data.updatedDate ?? post.data.publishDate,
 				title: post.data.title,

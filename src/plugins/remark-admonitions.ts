@@ -49,12 +49,12 @@ function transformUnhandledDirective(
 }
 
 /** From Astro Starlight: Function that generates an mdast HTML tree ready for conversion to HTML by rehype. */
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: Generated HTML can contain block and phrasing nodes.
 function h(el: string, attrs: Properties = {}, children: any[] = []): P {
 	const { properties, tagName } = _h(el, attrs);
 	return {
 		children,
-		data: { hName: tagName, hProperties: properties },
+		data: { hName: tagName, hProperties: properties } as P["data"],
 		type: "paragraph",
 	};
 }

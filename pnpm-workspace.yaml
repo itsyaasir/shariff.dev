@@ -1,0 +1,11 @@
+allowBuilds:
+  '@biomejs/biome': true
+  esbuild: true
+  sharp: true
+overrides:
+  mdast-util-to-markdown: ^2.1.3
+minimumReleaseAgeExclude:
+  - cssnano-preset-default@9.1.1
+  - cssnano-utils@8.0.1
+  - cssnano@9.1.1
+  - postcss-convert-values@9.0.5
