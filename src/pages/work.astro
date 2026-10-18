@@ -1,0 +1,138 @@
+---
+import { Image } from "astro:assets";
+import prismposScreenshot from "@/assets/work/prismpos.jpg";
+import shipzenScreenshot from "@/assets/work/shipzen.jpg";
+import Base from "@/layouts/Base.astro";
+
+const meta = {
+	title: "Work",
+	description:
+		"Products and open-source work by Yasir Shariff: Shipzen, PrismPOS, IOTA's notarization and hierarchies toolkits, and Rust developer tools.",
+};
+
+const products = [
+	{
+		name: "Shipzen",
+		slug: "shipzen",
+		href: "https://shipzen.net",
+		description:
+			"A shop-and-ship service for Kenya. Customers buy from stores in the USA, Europe, China, and the UK, and Shipzen consolidates their packages and delivers them by air or sea, with upfront pricing and tracking from checkout to doorstep.",
+		screenshot: shipzenScreenshot,
+		alt: 'Shipzen landing page with the headline "Ship Smarter, Not Harder" over an aerial photo of a container ship.',
+	},
+	{
+		name: "PrismPOS",
+		slug: "prismpos",
+		href: "https://prismpos.app",
+		description:
+			"An all-in-one platform for small businesses: point of sale, inventory, payments, accounting, customers, and online stores in one connected system, so a shop doesn't juggle separate tools.",
+		screenshot: prismposScreenshot,
+		alt: 'PrismPOS landing page with the headline "Run your business from one connected system" above a preview of the dashboard.',
+	},
+];
+
+const iota = [
+	{
+		name: "IOTA Notarization Toolkit",
+		slug: "iota-notarization",
+		href: "https://github.com/iotaledger/notarization",
+		description:
+			"I lead notarization, audit trails, and proof of inclusion: Rust libraries for anchoring data on the IOTA ledger and proving it was included, with WebAssembly bindings for TypeScript developers.",
+	},
+	{
+		name: "IOTA Hierarchies",
+		slug: "iota-hierarchies",
+		href: "https://github.com/iotaledger/hierarchies",
+		description:
+			"Hierarchical trust networks on IOTA, where organisations delegate accreditation and attestation rights across levels. I work on the Rust library and its WebAssembly bindings.",
+	},
+];
+
+const openSource = [
+	{
+		name: "rust-feature-toggler",
+		slug: "rust-feature-toggler",
+		href: "https://github.com/itsyaasir/rust-feature-toggler",
+		description:
+			"A VS Code extension for turning a Rust project's feature flags on and off from the status bar or command palette.",
+	},
+];
+
+const projectSections = [
+	{ id: "iota", title: "At IOTA", items: iota },
+	{ id: "open-source", title: "Open source", items: openSource },
+];
+---
+
+<Base meta={meta}>
+	<section aria-labelledby="work-title">
+		<h1 id="work-title" class="title mb-6">
+			Work
+		</h1>
+		<p class="max-w-prose leading-relaxed">
+			Products I build and run, and the open-source code I work on. If you need something similar
+			built, see{" "}
+			<a class="cactus-link" href="/consulting">
+				consulting
+			</a>
+			.
+		</p>
+	</section>
+
+	<section aria-labelledby="products-title" class="mt-16">
+		<h2 id="products-title" class="title mb-2 text-xl">
+			Products
+		</h2>
+		<p class="mb-6 leading-relaxed">I build and operate both through Shariff Consultancy.</p>
+		<ul class="space-y-12">
+			{products.map((product) => (
+				<li class="border-s-2 border-accent ps-4">
+					<a
+						class="cactus-link font-semibold"
+						data-umami-event="product-click"
+						data-umami-event-product={product.slug}
+						href={product.href}
+						rel="noreferrer"
+						target="_blank"
+					>
+						{product.name}
+					</a>
+					<p class="mt-1 leading-relaxed">{product.description}</p>
+					<Image
+						alt={product.alt}
+						class="mt-4 w-full border border-textColor/20"
+						densities={[1, 2]}
+						loading="lazy"
+						src={product.screenshot}
+						width={704}
+					/>
+				</li>
+			))}
+		</ul>
+	</section>
+
+	{projectSections.map((section) => (
+		<section aria-labelledby={`${section.id}-title`} class="mt-16">
+			<h2 id={`${section.id}-title`} class="title mb-6 text-xl">
+				{section.title}
+			</h2>
+			<ul class="space-y-6">
+				{section.items.map((project) => (
+					<li class="border-s-2 border-accent ps-4">
+						<a
+							class="cactus-link font-semibold"
+							data-umami-event="project-click"
+							data-umami-event-project={project.slug}
+							href={project.href}
+							rel="noreferrer"
+							target="_blank"
+						>
+							{project.name}
+						</a>
+						<p class="mt-1 leading-relaxed">{project.description}</p>
+					</li>
+				))}
+			</ul>
+		</section>
+	))}
+</Base>
