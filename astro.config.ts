@@ -6,20 +6,38 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import { expressiveCodeOptions } from "./src/site.config";
 
 // Remark plugins
 import remarkDirective from "remark-directive"; /* Handle ::: directives as nodes */
-import remarkUnwrapImages from "remark-unwrap-images";
 import { remarkAdmonitions } from "./src/plugins/remark-admonitions"; /* Add admonitions */
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 
 // Rehype plugins
 import rehypeExternalLinks from "rehype-external-links";
+import rehypeUnwrapImages from "rehype-unwrap-images";
 
 // https://astro.build/config
 export default defineConfig({
+	env: {
+		schema: {
+			// Google Analytics 4 measurement ID; GA is skipped when unset
+			PUBLIC_GA_ID: envField.string({ access: "public", context: "client", optional: true }),
+			// Self-hosted Umami; tracking is skipped unless both are set
+			PUBLIC_UMAMI_SCRIPT_URL: envField.string({
+				access: "public",
+				context: "client",
+				optional: true,
+				url: true,
+			}),
+			PUBLIC_UMAMI_WEBSITE_ID: envField.string({
+				access: "public",
+				context: "client",
+				optional: true,
+			}),
+		},
+	},
 	image: {
 		domains: ["webmention.io"],
 	},
@@ -36,25 +54,29 @@ export default defineConfig({
 	],
 	markdown: {
 		processor: unified({
-		rehypePlugins: [
-			[
-				rehypeExternalLinks,
-				{
-					rel: ["nofollow, noreferrer"],
-					target: "_blank",
-				},
+			rehypePlugins: [
+				rehypeUnwrapImages,
+				[
+					rehypeExternalLinks,
+					{
+						rel: ["nofollow", "noreferrer"],
+						target: "_blank",
+					},
+				],
 			],
-		],
-		remarkPlugins: [remarkUnwrapImages, remarkReadingTime, remarkDirective, remarkAdmonitions],
-		remarkRehype: {
-			footnoteLabelProperties: {
-				className: [""],
+			remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
+			remarkRehype: {
+				footnoteLabelProperties: {
+					className: [""],
+				},
 			},
-		},
 		}),
 	},
 	// https://docs.astro.build/en/guides/prefetch/
 	prefetch: true,
+	redirects: {
+		"/consultant": "/consulting",
+	},
 	// ! Please remember to replace the following site property with your own domain
 	site: "https://shariff.dev/",
 	vite: {

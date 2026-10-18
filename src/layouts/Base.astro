@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import { siteConfig } from "@/site-config";
 import type { SiteMeta } from "@/types";
+import { PUBLIC_GA_ID, PUBLIC_UMAMI_SCRIPT_URL, PUBLIC_UMAMI_WEBSITE_ID } from "astro:env/client";
 
 interface Props {
 	meta: SiteMeta;
@@ -18,27 +19,38 @@ const {
 
 <html class="scroll-smooth" lang={siteConfig.lang}>
 	<head>
-		<!-- Google tag (gtag.js) -->
-		<script
-			is:inline
-			type="text/partytown"
-			src="https://www.googletagmanager.com/gtag/js?id=G-GPGLDE4N04"></script>
+		{PUBLIC_GA_ID && (
+			<>
+				<!-- Google tag (gtag.js) -->
+				<script
+					is:inline
+					type="text/partytown"
+					src={`https://www.googletagmanager.com/gtag/js?id=${PUBLIC_GA_ID}`}
+				/>
+				<script is:inline type="text/partytown" define:vars={{ gaId: PUBLIC_GA_ID }}>
+					window.dataLayer = window.dataLayer || [];
+					function gtag() {
+						dataLayer.push(arguments);
+					}
+					gtag("js", new Date());
 
-		<script is:inline type="text/partytown">
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag("js", new Date());
-
-			gtag("config", "G-GPGLDE4N04");
-		</script>
+					gtag("config", gaId);
+				</script>
+			</>
+		)}
+		{PUBLIC_UMAMI_SCRIPT_URL && PUBLIC_UMAMI_WEBSITE_ID && (
+			<script
+				is:inline
+				defer
+				src={PUBLIC_UMAMI_SCRIPT_URL}
+				data-website-id={PUBLIC_UMAMI_WEBSITE_ID}
+				data-domains={Astro.site?.hostname}
+			/>
+		)}
 
 		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
 	</head>
-	<body
-		class="mx-auto flex min-h-screen max-w-3xl flex-col bg-bgColor px-4 pt-16 font-mono text-sm font-normal text-textColor antialiased sm:px-8"
-	>
+	<body class="mx-auto flex min-h-screen max-w-3xl flex-col bg-bgColor px-4 pt-16 font-mono text-sm font-normal text-textColor antialiased sm:px-8">
 		<ThemeProvider />
 		<SkipLink />
 		<Header />

@@ -1,0 +1,178 @@
+---
+import Base from "@/layouts/Base.astro";
+
+const meta = {
+	title: "Consulting",
+	description:
+		"Hire Yasir Shariff for Rust, blockchain infrastructure, and distributed backend work, from scoping through production support.",
+};
+
+const email = "yasir@shariff.dev";
+const mailtoHref = `mailto:${email}?subject=${encodeURIComponent("Consulting inquiry")}&body=${encodeURIComponent(
+	"What are you building?\n\n\nWhere do you need help?\n\n\nRough timeline:\n",
+)}`;
+
+const services = [
+	{
+		name: "Performance-critical Rust",
+		description:
+			"Proof systems, protocol logic, and hot paths written once in Rust, then shipped as a crate, a CLI, and a WebAssembly package so your backend and frontend run the same tested code.",
+	},
+	{
+		name: "Blockchain infrastructure",
+		description:
+			"Execution clients, JSON-RPC services, RPC routing and failover, and the tooling developers use to build on your chain.",
+	},
+	{
+		name: "Backends that have to stay up",
+		description:
+			"Event-driven services on Kafka or Redpanda, real-time APIs over WebSockets, and PostgreSQL data models built for production load.",
+	},
+	{
+		name: "Products, end to end",
+		description:
+			"Turning requirements into a shipped product, then running it: architecture, delivery, monitoring, and support.",
+	},
+];
+
+const work = [
+	{
+		name: "IOTA",
+		description:
+			"I lead notarization, audit trails, and proof of inclusion: Rust infrastructure for building and verifying proofs, plus the libraries, CLI, and WebAssembly APIs developers integrate with.",
+	},
+	{
+		name: "Tideblock",
+		description:
+			"Designed low-latency Solana RPC infrastructure with request routing and automatic failover.",
+	},
+	{
+		name: "Bitfinity Network",
+		description: "Built on an Ethereum-compatible execution client and its JSON-RPC layer.",
+	},
+	{
+		name: "Shipzen and PrismPOS",
+		description:
+			"Products I build and operate through Shariff Consultancy, used every day in logistics and business operations.",
+	},
+];
+
+const steps = [
+	{
+		name: "Tell me the problem",
+		description: "Send a short note about what you're building and where you're stuck.",
+	},
+	{
+		name: "Scope it",
+		description:
+			"I read the code or system, then send back a written plan with what I'd do, what it costs, and what you get.",
+	},
+	{
+		name: "Build it",
+		description:
+			"Work lands in your repository in small reviewed changes, with regular progress updates.",
+	},
+	{
+		name: "Hand it over",
+		description:
+			"You get tests, documentation, and a walkthrough, so your team can own it after I leave.",
+	},
+];
+---
+
+<Base meta={meta}>
+	<section aria-labelledby="consulting-title">
+		<h1
+			id="consulting-title"
+			class="max-w-[22ch] text-3xl leading-tight font-semibold tracking-tight text-balance text-accent-2 sm:text-4xl"
+		>
+			I build software that has to be correct and stay up.
+		</h1>
+		<p class="mt-6 max-w-prose leading-relaxed">
+			I'm Yasir, a Rust and Distributed Systems Engineer in Nairobi. Teams bring me in for protocol
+			code, blockchain infrastructure, and backends where a bug or an outage costs real money. I
+			work remotely with teams in any time zone.
+		</p>
+		<p class="mt-8">
+			<a
+				class="inline-block border-2 border-accent px-4 py-2 font-semibold text-accent-2 transition-colors hover:bg-accent hover:text-bgColor focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+				data-umami-event="consulting-email"
+				data-umami-event-location="hero"
+				href={mailtoHref}
+			>
+				Email me about your project
+			</a>
+		</p>
+	</section>
+
+	<section aria-labelledby="services-title" class="mt-20">
+		<h2 id="services-title" class="title mb-6 text-xl">
+			Where I can help
+		</h2>
+		<dl class="divide-y divide-dashed divide-textColor/30 border-y border-dashed border-textColor/30">
+			{services.map((service) => (
+				<div class="grid gap-1 py-4 sm:grid-cols-[14rem_1fr] sm:gap-6">
+					<dt class="font-semibold text-accent-2">{service.name}</dt>
+					<dd class="leading-relaxed">{service.description}</dd>
+				</div>
+			))}
+		</dl>
+	</section>
+
+	<section aria-labelledby="work-title" class="mt-20">
+		<h2 id="work-title" class="title mb-6 text-xl">
+			Recent work
+		</h2>
+		<ul class="space-y-6">
+			{work.map((item) => (
+				<li class="border-s-2 border-accent ps-4">
+					<p class="font-semibold text-accent-2">{item.name}</p>
+					<p class="mt-1 leading-relaxed">{item.description}</p>
+				</li>
+			))}
+		</ul>
+	</section>
+
+	<section aria-labelledby="process-title" class="mt-20">
+		<h2 id="process-title" class="title mb-6 text-xl">
+			How it works
+		</h2>
+		<ol class="space-y-5">
+			{steps.map((step, index) => (
+				<li class="grid grid-cols-[2rem_1fr] gap-x-2">
+					<span aria-hidden="true" class="font-semibold text-accent">
+						{index + 1}.
+					</span>
+					<div>
+						<p class="font-semibold text-accent-2">{step.name}</p>
+						<p class="mt-1 leading-relaxed">{step.description}</p>
+					</div>
+				</li>
+			))}
+		</ol>
+	</section>
+
+	<section
+		aria-labelledby="contact-title"
+		class="mt-20 border-t border-dashed border-textColor/30 pt-10"
+	>
+		<h2 id="contact-title" class="title text-xl">
+			Tell me what you're building
+		</h2>
+		<p class="mt-4 max-w-prose leading-relaxed">
+			A few sentences is enough: what you're building, where you need help, and when you'd like to
+			start. If it's a good fit, I'll suggest a time to talk. If it isn't, I'll say so and point you
+			to someone who can help.
+		</p>
+		<p class="mt-6">
+			<a
+				class="inline-block border-2 border-accent px-4 py-2 font-semibold text-accent-2 transition-colors hover:bg-accent hover:text-bgColor focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+				data-umami-event="consulting-email"
+				data-umami-event-location="footer"
+				href={mailtoHref}
+			>
+				Email {email}
+			</a>
+		</p>
+	</section>
+</Base>
