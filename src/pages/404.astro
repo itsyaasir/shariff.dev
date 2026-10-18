@@ -20,3 +20,10 @@ const meta = {
 		</a>
 	</div>
 </PageLayout>
+
+<script>
+	// Umami loads deferred, so wait for it before recording which URL was missing
+	window.addEventListener("load", () => {
+		window.umami?.track("404", { path: location.pathname });
+	});
+</script>

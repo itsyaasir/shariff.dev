@@ -38,20 +38,20 @@ const socialLinks: {
 <div class="flex flex-wrap items-end gap-x-2">
 	<p>Find me on</p>
 	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
-		{
-			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
-				<li class="flex">
-					<a
-						class="inline-block sm:hover:text-link"
-						href={link}
-						rel={`noreferrer ${isWebmention ? "me authn" : ""}`}
-						target="_blank"
-					>
-						<Icon aria-hidden="true" class="h-8 w-8" focusable="false" name={name} />
-						<span class="sr-only">{friendlyName}</span>
-					</a>
-				</li>
-			))
-		}
+		{socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
+			<li class="flex">
+				<a
+					class="inline-block sm:hover:text-link"
+					data-umami-event="social-click"
+					data-umami-event-network={friendlyName.toLowerCase()}
+					href={link}
+					rel={`noreferrer ${isWebmention ? "me authn" : ""}`}
+					target="_blank"
+				>
+					<Icon aria-hidden="true" class="h-8 w-8" focusable="false" name={name} />
+					<span class="sr-only">{friendlyName}</span>
+				</a>
+			</li>
+		))}
 	</ul>
 </div>

@@ -24,6 +24,18 @@ export default defineConfig({
 		schema: {
 			// Google Analytics 4 measurement ID; GA is skipped when unset
 			PUBLIC_GA_ID: envField.string({ access: "public", context: "client", optional: true }),
+			// Self-hosted Umami; tracking is skipped unless both are set
+			PUBLIC_UMAMI_SCRIPT_URL: envField.string({
+				access: "public",
+				context: "client",
+				optional: true,
+				url: true,
+			}),
+			PUBLIC_UMAMI_WEBSITE_ID: envField.string({
+				access: "public",
+				context: "client",
+				optional: true,
+			}),
 		},
 	},
 	image: {
