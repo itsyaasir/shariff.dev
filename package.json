@@ -12,7 +12,8 @@
 		"format": "pnpm run format:code && pnpm run format:imports",
 		"format:code": "biome format . --write && prettier -w \"**/*\" \"!**/*.{md,mdx}\" --ignore-unknown --cache",
 		"format:imports": "biome check --formatter-enabled=false --write",
-		"check": "astro check"
+		"check": "astro check",
+		"icons": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/generate-icons.mts"
 	},
 	"dependencies": {
 		"@astrojs/markdown-remark": "^7.3.3",
