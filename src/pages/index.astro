@@ -11,17 +11,51 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 
 <PageLayout meta={{ title: "Home" }}>
 	<section>
-		<h1 class="title mb-6">Jambo 👋!</h1>
+		<h1 class="title mb-6">Jambo 👋</h1>
 		<p class="mb-4">
-			I'm Yasir, a Software Engineer based in Nairobi. I build Rust and blockchain infrastructure,
-			distributed backends, and software products that people use in their daily work. At IOTA, I
-			lead work on notarization, audit trails, and proof of inclusion. I also build and operate
-			Shipzen and PrismPOS through Shariff Consultancy.
+			I'm Yasir, a Software Engineer in Nairobi. I build Rust and blockchain infrastructure that has
+			to be correct and stay up. At IOTA, I lead notarization, audit trails, and proof of inclusion,
+			from the Rust core to the WebAssembly and TypeScript APIs developers build on.
 		</p>
 		<p class="mb-4">
-			I write about the tools and ideas behind that work. You can{" "}
+			Through{" "}
+			<a
+				class="cactus-link"
+				data-umami-event="consulting-link"
+				data-umami-event-location="home"
+				href="/consulting"
+			>
+				Shariff Consultancy
+			</a>
+			, I build and run{" "}
+			<a
+				class="cactus-link"
+				data-umami-event="product-click"
+				data-umami-event-product="shipzen"
+				href="https://shipzen.net"
+				rel="noreferrer"
+				target="_blank"
+			>
+				Shipzen
+			</a>
+			, which ships online shopping from abroad to Kenya, and{" "}
+			<a
+				class="cactus-link"
+				data-umami-event="product-click"
+				data-umami-event-product="prismpos"
+				href="https://prismpos.app"
+				rel="noreferrer"
+				target="_blank"
+			>
+				PrismPOS
+			</a>
+			, an all-in-one point-of-sale platform for small businesses. I also help teams with Rust,
+			protocol code, and distributed backends.
+		</p>
+		<p class="mb-4">
+			Here I write about Rust and the systems behind that work.{" "}
 			<a class="cactus-link" href="/about">
-				read more about me
+				Read more about me
 			</a>{" "}
 			or{" "}
 			<a

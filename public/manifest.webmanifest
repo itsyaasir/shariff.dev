@@ -1,7 +1,7 @@
 {
-	"name": "Personal Portfolio",
-	"short_name": "Portfolio",
-	"description": "A personal portfolio built with Astro",
+	"name": "Yasir Shariff",
+	"short_name": "Yasir",
+	"description": "Yasir Shariff, Software Engineer building Rust, blockchain and distributed systems infrastructure.",
 	"icons": [
 		{
 			"src": "/192x192.png",
