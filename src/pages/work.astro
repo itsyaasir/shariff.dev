@@ -18,17 +18,7 @@ const products = [
 		description:
 			"A shop-and-ship service for Kenya. Customers buy from stores in the USA, Europe, China, and the UK, and Shipzen consolidates their packages and delivers them by air or sea, with upfront pricing and tracking from checkout to doorstep.",
 		built:
-			"I built it as a TypeScript monorepo: a Hono API with typed oRPC contracts behind a server-rendered Nuxt storefront, on PostgreSQL with row-level security. Customers pay with M-Pesa STK Push, and background jobs reconcile missed payment callbacks and send tracking updates.",
-		stack: [
-			"Hono",
-			"oRPC",
-			"Nuxt",
-			"PostgreSQL",
-			"Drizzle",
-			"pg-boss",
-			"M-Pesa Daraja",
-			"OpenObserve",
-		],
+			"I designed and built the whole platform and run it in production: the storefront and customer accounts, M-Pesa checkout, shipment tracking, and the email updates customers get along the way.",
 		screenshot: shipzenScreenshot,
 		alt: 'Shipzen landing page with the headline "Ship Smarter, Not Harder" over an aerial photo of a container ship.',
 	},
@@ -39,8 +29,7 @@ const products = [
 		description:
 			"An all-in-one platform for small businesses: point of sale, inventory, payments, accounting, customers, and online stores in one connected system, so a shop doesn't juggle separate tools.",
 		built:
-			"I built it as multi-tenant SaaS: each business gets its own subdomain, and PostgreSQL row-level security keeps every tenant's data isolated in the database. Beyond the till it covers multi-warehouse inventory, purchasing, finance, payroll, and reporting, with SMS through Africa's Talking or Twilio.",
-		stack: ["Hono", "oRPC", "Nuxt", "PostgreSQL", "Drizzle", "pg-boss", "Better Auth"],
+			"I designed and built it as a multi-tenant platform where each business gets its own workspace. Beyond the till it covers inventory across warehouses, purchasing, finance, payroll, and reporting.",
 		screenshot: prismposScreenshot,
 		alt: 'PrismPOS landing page with the headline "Run your business from one connected system" above a preview of the dashboard.',
 	},
@@ -154,10 +143,6 @@ const projectSections: Array<{
 					</a>
 					<p class="mt-1 leading-relaxed">{product.description}</p>
 					<p class="mt-3 leading-relaxed">{product.built}</p>
-					<p class="mt-2 text-textColor/70">
-						<span class="sr-only">Stack:</span>
-						{product.stack.join(" · ")}
-					</p>
 					<Image
 						alt={product.alt}
 						class="mt-4 w-full border border-textColor/20"
