@@ -11,12 +11,12 @@ import { expressiveCodeOptions } from "./src/site.config";
 
 // Remark plugins
 import remarkDirective from "remark-directive"; /* Handle ::: directives as nodes */
-import remarkUnwrapImages from "remark-unwrap-images";
 import { remarkAdmonitions } from "./src/plugins/remark-admonitions"; /* Add admonitions */
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 
 // Rehype plugins
 import rehypeExternalLinks from "rehype-external-links";
+import rehypeUnwrapImages from "rehype-unwrap-images";
 
 // https://astro.build/config
 export default defineConfig({
@@ -37,15 +37,16 @@ export default defineConfig({
 	markdown: {
 		processor: unified({
 		rehypePlugins: [
+			rehypeUnwrapImages,
 			[
 				rehypeExternalLinks,
 				{
-					rel: ["nofollow, noreferrer"],
+					rel: ["nofollow", "noreferrer"],
 					target: "_blank",
 				},
 			],
 		],
-		remarkPlugins: [remarkUnwrapImages, remarkReadingTime, remarkDirective, remarkAdmonitions],
+		remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
 		remarkRehype: {
 			footnoteLabelProperties: {
 				className: [""],
