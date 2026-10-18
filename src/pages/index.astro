@@ -13,29 +13,33 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 	<section>
 		<h1 class="title mb-6">Jambo 👋!</h1>
 		<p class="mb-4">
-			I'm Yasir, a software engineer based in Nairobi. I build Rust and blockchain infrastructure,
+			I'm Yasir, a Software Engineer based in Nairobi. I build Rust and blockchain infrastructure,
 			distributed backends, and software products that people use in their daily work. At IOTA, I
 			lead work on notarization, audit trails, and proof of inclusion. I also build and operate
 			Shipzen and PrismPOS through Shariff Consultancy.
 		</p>
 		<p class="mb-4">
-			I write about the tools and ideas behind that work. You can <a class="cactus-link" href="/about"
-				>read more about me</a
-			> or <a class="cactus-link" href="mailto:yasir@shariff.dev">get in touch</a>.
+			I write about the tools and ideas behind that work. You can{" "}
+			<a class="cactus-link" href="/about">
+				read more about me
+			</a>{" "}
+			or{" "}
+			<a class="cactus-link" href="mailto:yasir@shariff.dev">
+				get in touch
+			</a>
+			.
 		</p>
 		<SocialList />
 	</section>
 	<section aria-label="Blog post list" class="mt-16">
 		<h2 class="title mb-4 text-xl">Posts</h2>
 		<ul class="space-y-4">
-			{
-				allPostsByDate.map((p) => (
-					<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
-						{/* @ts-ignore*/}
-						<PostPreview post={p} />
-					</li>
-				))
-			}
+			{allPostsByDate.map((p) => (
+				<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+					{/* @ts-ignore*/}
+					<PostPreview post={p} />
+				</li>
+			))}
 		</ul>
 	</section>
 </PageLayout>

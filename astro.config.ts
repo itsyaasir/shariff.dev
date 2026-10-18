@@ -6,7 +6,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import { expressiveCodeOptions } from "./src/site.config";
 
 // Remark plugins
@@ -20,6 +20,12 @@ import rehypeUnwrapImages from "rehype-unwrap-images";
 
 // https://astro.build/config
 export default defineConfig({
+	env: {
+		schema: {
+			// Google Analytics 4 measurement ID; GA is skipped when unset
+			PUBLIC_GA_ID: envField.string({ access: "public", context: "client", optional: true }),
+		},
+	},
 	image: {
 		domains: ["webmention.io"],
 	},
@@ -36,26 +42,29 @@ export default defineConfig({
 	],
 	markdown: {
 		processor: unified({
-		rehypePlugins: [
-			rehypeUnwrapImages,
-			[
-				rehypeExternalLinks,
-				{
-					rel: ["nofollow", "noreferrer"],
-					target: "_blank",
-				},
+			rehypePlugins: [
+				rehypeUnwrapImages,
+				[
+					rehypeExternalLinks,
+					{
+						rel: ["nofollow", "noreferrer"],
+						target: "_blank",
+					},
+				],
 			],
-		],
-		remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
-		remarkRehype: {
-			footnoteLabelProperties: {
-				className: [""],
+			remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
+			remarkRehype: {
+				footnoteLabelProperties: {
+					className: [""],
+				},
 			},
-		},
 		}),
 	},
 	// https://docs.astro.build/en/guides/prefetch/
 	prefetch: true,
+	redirects: {
+		"/consultant": "/consulting",
+	},
 	// ! Please remember to replace the following site property with your own domain
 	site: "https://shariff.dev/",
 	vite: {
