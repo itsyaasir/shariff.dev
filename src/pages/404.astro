@@ -2,21 +2,27 @@
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	description: "Oops! It looks like this page is lost in space!",
-	title: "Oops! You found a missing page!",
+	description: "The page you were looking for doesn't exist or has moved.",
+	title: "Page not found",
 };
 ---
 
 <PageLayout meta={meta}>
 	<div class="flex flex-col items-center text-center">
-		<h1 class="title mb-6">404 | Oops something went wrong</h1>
-		<p class="mb-8">Please use the button below to find your way back</p>
+		<h1 class="title mb-6">404 | Page not found</h1>
+		<p class="mb-8">
+			This page doesn't exist or has moved. Try the{" "}
+			<a class="cactus-link" href="/posts/">
+				posts
+			</a>{" "}
+			or head back home.
+		</p>
 
 		<a
 			href="/"
-			class="inline-block rounded bg-black px-4 py-2 font-bold text-white hover:bg-gray-800"
+			class="inline-block border-2 border-accent px-4 py-2 font-semibold text-accent-2 transition-colors hover:bg-accent hover:text-bgColor focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
 		>
-			Go Back Home
+			Back to home
 		</a>
 	</div>
 </PageLayout>
