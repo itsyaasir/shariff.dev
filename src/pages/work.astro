@@ -83,7 +83,20 @@ const projectSections = [
 		<h2 id="products-title" class="title mb-2 text-xl">
 			Products
 		</h2>
-		<p class="mb-6 leading-relaxed">I build and operate both through Shariff Consultancy.</p>
+		<p class="mb-6 leading-relaxed">
+			I build and operate both through{" "}
+			<a
+				class="cactus-link"
+				data-umami-event="consultancy-click"
+				data-umami-event-location="work"
+				href="https://shariffconsultancy.com"
+				rel="noreferrer"
+				target="_blank"
+			>
+				Shariff Consultancy
+			</a>
+			.
+		</p>
 		<ul class="space-y-12">
 			{products.map((product) => (
 				<li class="border-s-2 border-accent ps-4">
