@@ -5,6 +5,7 @@ export interface SiteConfig {
 		options: Intl.DateTimeFormatOptions;
 	};
 	description: string;
+	jobTitle: string;
 	lang: string;
 	ogLocale: string;
 	sortPostsByUpdatedDate: boolean;
@@ -22,9 +23,11 @@ export interface PaginationLink {
 }
 
 export interface ArticleMeta {
+	markdownPath: string;
 	modifiedTime?: string | undefined;
 	publishedTime: string;
 	tags: string[];
+	wordCount?: number | undefined;
 }
 
 export interface SiteMeta {

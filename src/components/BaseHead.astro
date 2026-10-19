@@ -13,6 +13,9 @@ const fullTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
 const siteTitle = fullTitle.length <= 60 ? fullTitle : title;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(ogImage ? ogImage : "/social-card/default.png", Astro.url).href;
+const email = socialLinks
+	.find(({ friendlyName }) => friendlyName === "Mail")
+	?.link.replace("mailto:", "");
 const xHandle = socialLinks
 	.find(({ friendlyName }) => friendlyName === "X")
 	?.link.split("/")
@@ -24,7 +27,9 @@ const person = {
 	"@id": `${siteURL}#person`,
 	"@type": "Person",
 	address: { "@type": "PostalAddress", addressCountry: "KE", addressLocality: "Nairobi" },
-	jobTitle: "Software Engineer",
+	description: siteConfig.description,
+	email,
+	jobTitle: siteConfig.jobTitle,
 	knowsAbout: [
 		"Rust",
 		"Distributed systems",
@@ -68,6 +73,7 @@ const blogPosting = article && {
 	mainEntityOfPage: canonicalURL.href,
 	publisher: { "@id": person["@id"] },
 	url: canonicalURL.href,
+	wordCount: article.wordCount,
 };
 // https://developers.google.com/search/docs/appearance/structured-data/breadcrumb
 const breadcrumbs = article && {
@@ -139,6 +145,7 @@ const jsonLd = {
 		{article.tags.map((tag) => (
 			<meta content={tag} property="article:tag" />
 		))}
+		<link href={article.markdownPath} rel="alternate" title={title} type="text/markdown" />
 	</>
 )}
 
@@ -158,7 +165,7 @@ const jsonLd = {
 <link href="/rss.xml" rel="alternate" title={siteConfig.title} type="application/rss+xml" />
 
 {/* Webmentions */}
-{siteConfig.webmentions && (
+{siteConfig.webmentions?.link && (
 	<>
 		<link href={siteConfig.webmentions.link} rel="webmention" />
 		{siteConfig.webmentions.pingback && (

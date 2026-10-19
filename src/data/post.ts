@@ -64,6 +64,26 @@ export function getUniqueTagsWithCount(posts: CollectionEntry<"post">[]): [strin
 	].sort((a, b) => b[1] - a[1]);
 }
 
+/** renders a post as standalone Markdown */
+export function postToMarkdown(post: CollectionEntry<"post">, site: URL) {
+	const { description, publishDate, tags, title, updatedDate } = post.data;
+	const day = (date: Date) => date.toISOString().slice(0, 10);
+	return [
+		`# ${title}`,
+		"",
+		`> ${description}`,
+		"",
+		`- Author: ${siteConfig.author}`,
+		`- Published: ${day(publishDate)}`,
+		...(updatedDate ? [`- Updated: ${day(updatedDate)}`] : []),
+		`- URL: ${new URL(`/posts/${post.id}/`, site).href}`,
+		`- Tags: ${tags.join(", ")}`,
+		"",
+		post.body?.trim() ?? "",
+		"",
+	].join("\n");
+}
+
 /** returns up to `limit` posts sharing the most tags with `post`, newest first on ties
  *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
  *  */

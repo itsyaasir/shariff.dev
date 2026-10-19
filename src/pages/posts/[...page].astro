@@ -5,6 +5,7 @@ import PostPreview from "@/components/blog/PostPreview.astro";
 import Pagination from "@/components/Paginator.astro";
 import { getAllPosts, getUniqueTags, groupPostsByYear, sortMDByDate } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site-config";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const MAX_POSTS_PER_PAGE = 10;
@@ -42,11 +43,28 @@ const paginationProps = {
 	}),
 };
 
+const schema = [
+	{
+		"@id": new URL("/posts/#blog", Astro.site).href,
+		"@type": "Blog",
+		author: { "@id": new URL("/#person", Astro.site).href },
+		blogPost: page.data.map(({ data, id }) => ({
+			"@type": "BlogPosting",
+			datePublished: data.publishDate.toISOString(),
+			headline: data.title,
+			url: new URL(`/posts/${id}/`, Astro.site).href,
+		})),
+		description: meta.description,
+		name: `${siteConfig.author}'s blog`,
+		url: new URL("/posts/", Astro.site).href,
+	},
+];
+
 const groupedByYear = groupPostsByYear(page.data);
 const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 ---
 
-<PageLayout meta={meta}>
+<PageLayout meta={{ ...meta, schema }}>
 	<h1 class="title mb-6">Posts</h1>
 	<div class="grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8">
 		<section aria-label="Blog post list">

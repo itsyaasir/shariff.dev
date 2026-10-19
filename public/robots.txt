@@ -1,4 +1,23 @@
 User-agent: *
 Allow: /
 
+# AI search crawlers that cite pages in answers
+User-agent: OAI-SearchBot
+User-agent: PerplexityBot
+User-agent: Claude-SearchBot
+Allow: /
+
+# Fetches made when a user asks an assistant to read a page
+User-agent: ChatGPT-User
+User-agent: Claude-User
+User-agent: Perplexity-User
+Allow: /
+
+# Model training, allowed on purpose
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: CCBot
+Allow: /
+
 Sitemap: https://shariff.dev/sitemap-index.xml

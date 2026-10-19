@@ -2,15 +2,25 @@
 import { Image } from "astro:assets";
 import sunsetBeach from "@/assets/sunset-beach.png";
 import PageLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site-config";
 
 const meta = {
 	description:
 		"Learn about Yasir Shariff's work in Rust, blockchain infrastructure, distributed systems, and independent software products.",
 	title: "About",
 };
+
+const schema = [
+	{
+		"@type": "ProfilePage",
+		mainEntity: { "@id": new URL("/#person", Astro.site).href },
+		name: `About ${siteConfig.author}`,
+		url: new URL("/about/", Astro.site).href,
+	},
+];
 ---
 
-<PageLayout meta={meta}>
+<PageLayout meta={{ ...meta, schema }}>
 	<div class="space-y-6">
 		<h1 class="title">About</h1>
 		<div class="flex justify-center">
@@ -21,11 +31,12 @@ const meta = {
 				src={sunsetBeach}
 			/>
 		</div>
+		<h2 class="title text-xl">What I work on</h2>
 		<p class="text-md mb-8 leading-relaxed">
-			I'm a Software Engineer based in Nairobi, Kenya. At IOTA, I lead work on notarization, audit
-			trails, and proof of inclusion. That includes Rust infrastructure for constructing and
-			verifying proofs, plus libraries, command-line tools, and WebAssembly and TypeScript APIs for
-			developers.
+			I'm Yasir Shariff, a {siteConfig.jobTitle} based in Nairobi, Kenya. At IOTA, I lead work on
+			notarization, audit trails, and proof of inclusion. That includes Rust infrastructure for
+			constructing and verifying proofs, plus libraries, command-line tools, and WebAssembly and
+			TypeScript APIs for developers.
 		</p>
 		<p class="text-md mb-8 leading-relaxed">
 			My earlier work includes an Ethereum-compatible execution client at Bitfinity Network and
@@ -33,17 +44,18 @@ const meta = {
 			Tideblock. Through Shariff Consultancy, I build and operate Shipzen and PrismPOS, bringing
 			product requirements through architecture, release, and production support.
 		</p>
+		<p class="text-md mb-8 leading-relaxed">
+			I enjoy the space between low-level systems work and practical software: understanding how
+			things behave, then making them dependable for the people who use them. I write about parts of
+			that process on this site.
+		</p>
+		<h2 class="title text-xl">Outside work</h2>
 		<p class="text-md mb-8 leading-relaxed">When I'm not immersed in code, you'll often find me:</p>
 		<ul class="text-md mb-8 list-inside list-disc leading-relaxed">
 			<li>Sipping on a warm cup of Earl Grey tea</li>
 			<li>Tinkering with Arduino-based hobby projects</li>
 			<li>Taking refreshing swims in the nearby ocean</li>
 		</ul>
-		<p class="text-md mb-8 leading-relaxed">
-			I enjoy the space between low-level systems work and practical software: understanding how
-			things behave, then making them dependable for the people who use them. I write about parts of
-			that process on this site.
-		</p>
 
 		<p>
 			You can see{" "}

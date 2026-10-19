@@ -62,7 +62,7 @@ struct JsTransactionEvidence {
 
 Rust then decodes the BCS into the same IOTA types the native gRPC client produces. From that point on, the proof builder and verifier cannot tell which transport fetched the data. A faulty JavaScript source can make a proof fail to build, but it has no way to influence what counts as valid.
 
-The native side uses the same boundary. `Source` is implemented directly for the Rust gRPC client behind a `native-grpc` feature, and the WebAssembly build disables that feature. One builder and one verifier serve both platforms.
+The native side uses the same boundary. `Source` is implemented directly for the Rust gRPC client behind a `native-grpc` feature, and the WebAssembly build disables that feature. One builder and one verifier serve both platforms. [Building IOTA's Proof of Inclusion with Rust](/posts/building-proof-of-inclusion-with-rust/) covers how that shared trait is designed.
 
 ## Keep the Transport Replaceable
 

@@ -93,9 +93,35 @@ const projectSections: Array<{
 	{ id: "earlier", title: "Earlier work", items: earlier },
 	{ id: "open-source", title: "Open source", items: openSource },
 ];
+
+const personId = { "@id": new URL("/#person", Astro.site).href };
+const schema = [
+	{
+		"@type": "ItemList",
+		itemListElement: [
+			...products.map(({ description, href, name }) => ({
+				"@type": "CreativeWork",
+				creator: personId,
+				description,
+				name,
+				url: href,
+			})),
+			...projectSections.flatMap(({ id, items }) =>
+				items.map(({ description, href, name }) => ({
+					"@type": href ? "SoftwareSourceCode" : "CreativeWork",
+					...(href && { codeRepository: href, url: href }),
+					[id === "open-source" ? "creator" : "contributor"]: personId,
+					description,
+					name,
+				})),
+			),
+		].map((item, index) => ({ "@type": "ListItem", item, position: index + 1 })),
+		name: "Work by Yasir Shariff",
+	},
+];
 ---
 
-<Base meta={meta}>
+<Base meta={{ ...meta, schema }}>
 	<section aria-labelledby="work-title">
 		<h1 id="work-title" class="title mb-6">
 			Work

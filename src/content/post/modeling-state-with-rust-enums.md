@@ -67,7 +67,7 @@ fn main() {
 }
 ```
 
-The guard keeps an empty draft in `Editing`, and a published draft stays published. Real workflows may need an error or a richer transition result, but the same idea applies: write each allowed transition down.
+The guard keeps an empty draft in `Editing`, and a published draft stays published. Real workflows may need [an error returned through `Result`](/posts/handling-errors-with-result-rust/) or a richer transition result, but the same idea applies: write each allowed transition down.
 
 ## Keep the Model Proportionate
 

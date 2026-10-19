@@ -19,12 +19,14 @@ const {
 	id,
 } = post;
 const socialImage = ogImage ?? `/og-image/${id}.png`;
+const { headings, remarkPluginFrontmatter } = await render(post);
 const article = {
+	markdownPath: `/posts/${id}.md`,
 	modifiedTime: updatedDate?.toISOString(),
 	publishedTime: publishDate.toISOString(),
 	tags,
+	wordCount: remarkPluginFrontmatter.wordCount,
 };
-const { headings } = await render(post);
 const relatedPosts = getRelatedPosts(post, await getAllPosts());
 ---
 

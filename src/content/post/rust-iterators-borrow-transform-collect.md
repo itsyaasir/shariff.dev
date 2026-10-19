@@ -87,7 +87,7 @@ fn main() {
 }
 ```
 
-This is useful when invalid entries are expected and can safely be ignored. If bad input should stop the operation or produce a message, keep the `Result` from `parse()` and handle the error instead. Silently dropping a failed parse can hide a problem.
+This is useful when invalid entries are expected and can safely be ignored. If bad input should stop the operation or produce a message, keep the `Result` from `parse()` and [handle the error](/posts/handling-errors-with-result-rust/) instead. Silently dropping a failed parse can hide a problem.
 
 ## Keep the Chain Easy to Read
 

@@ -70,7 +70,7 @@ fn main() {
 
 ## Use Threads Where the Work Warrants Them
 
-Spawning threads has a cost, so a tiny sum will usually be simpler as a normal loop. Scoped threads become useful when independent pieces of work take enough time to justify parallel execution and all results are needed before returning.
+Spawning threads has a cost, so a tiny sum will usually be simpler as a normal loop. Scoped threads become useful when independent pieces of work take enough time to justify parallel execution and all results are needed before returning. If workers instead produce results for a consumer that keeps running, [send them through a channel](/posts/passing-results-between-rust-threads/).
 
 ## Further Reading
 

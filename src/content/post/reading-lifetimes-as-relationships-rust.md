@@ -60,7 +60,7 @@ fn main() {
 
 ## Choose Ownership When It Fits Better
 
-Lifetime annotations cannot make a reference to a local temporary safe to return. If callers need to keep a value independently, return an owned `String` or store one in the struct. Borrowing is useful when the data already has a clear owner and copying it would add unnecessary work.
+Lifetime annotations cannot make a reference to a local temporary safe to return. If callers need to keep a value independently, return an owned `String` or store one in the struct. Borrowing is useful when the data already has a clear owner and copying it would add unnecessary work, as with [scoped threads that borrow their inputs](/posts/borrowing-data-in-scoped-rust-threads/).
 
 When a lifetime error appears, I start by asking where the returned data comes from. Once the owner is clear, the signature usually follows.
 

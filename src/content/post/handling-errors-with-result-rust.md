@@ -5,7 +5,7 @@ publishDate: "20 February 2025"
 tags: ["rust", "error-handling", "result"]
 ---
 
-Opening a file, reading input, or parsing a number can fail for ordinary reasons. Rust represents those outcomes with `Result<T, E>`: `Ok(T)` carries a value, while `Err(E)` carries the reason the operation failed.
+Opening a file, reading input, or parsing a number can fail for ordinary reasons. Rust represents those outcomes with `Result<T, E>`, an [enum](/posts/modeling-state-with-rust-enums/) with two variants: `Ok(T)` carries a value, while `Err(E)` carries the reason the operation failed.
 
 The interesting question is where to deal with the error. A helper often knows *what* failed, but the caller knows whether to retry, show a message, or stop. `Result` lets the helper pass that decision back.
 

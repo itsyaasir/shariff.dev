@@ -17,7 +17,8 @@ export const siteConfig: SiteConfig = {
 	},
 	// Meta property used as the default description meta property
 	description:
-		"Yasir Shariff is a Software Engineer working on Rust, blockchain infrastructure, distributed systems, and independent software products.",
+		"Yasir Shariff is a Rust and Distributed Systems Engineer in Nairobi, building blockchain infrastructure at IOTA and independent software products.",
+	jobTitle: "Rust and Distributed Systems Engineer",
 	// HTML lang property, found in src/layouts/Base.astro L:18
 	lang: "en-US",
 	// Meta property, found in src/components/BaseHead.astro L:42

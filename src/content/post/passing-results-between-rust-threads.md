@@ -75,7 +75,7 @@ The arrival order depends on scheduling, so the example keeps an index and sorts
 
 ## Match the Tool to the Handoff
 
-Channels work well when workers produce independent messages for one consumer. When workers need to update the same state, a mutex or another shared-state design may fit better. For a fixed set of workers that simply return values, join handles can be even simpler.
+Channels work well when workers produce independent messages for one consumer. When workers need to update the same state, a mutex or another shared-state design may fit better. For a fixed set of workers that simply return values, join handles can be even simpler, and [scoped threads](/posts/borrowing-data-in-scoped-rust-threads/) let those workers borrow their inputs.
 
 ## Further Reading
 
