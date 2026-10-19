@@ -39,6 +39,26 @@ const relatedPosts = getRelatedPosts(post, await getAllPosts());
 				<slot />
 				<WebMentions />
 			</div>
+			<aside
+				aria-label="Consulting"
+				class="mt-16 border-t border-dashed border-accent pt-6"
+				data-pagefind-ignore
+			>
+				<p>
+					I take on consulting work in Rust, blockchain infrastructure, and distributed backends,
+					from scoping through production support.{" "}
+					<a
+						class="cactus-link"
+						data-umami-event="consulting-link"
+						data-umami-event-location="post"
+						data-umami-event-post={post.id}
+						href="/consulting/"
+					>
+						See how I work with teams
+					</a>
+					.
+				</p>
+			</aside>
 			{!!relatedPosts.length && (
 				<section aria-labelledby="related-posts" class="mt-16" data-pagefind-ignore>
 					<h2 class="title mb-4 text-lg" id="related-posts">
