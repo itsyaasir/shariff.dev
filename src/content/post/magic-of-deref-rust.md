@@ -2,24 +2,19 @@
 title: "Deref and DerefMut: Rust's Smart Pointer Protocol"
 description: "How Deref and DerefMut let String, Vec, and Box act like the data they hold, how to implement them for your own types, and when not to."
 publishDate: "16 May 2025"
+updatedDate: "19 October 2026"
 tags: ["rust", "smart-pointers", "deref", "derefmut", "traits"]
 ---
 
-Ever found yourself using types like `String`, `Vec`, or `Box` in Rust and wondered how they seamlessly let you call methods as if they were the underlying data itself? I remember when I first encountered this. It felt like a bit of Rust magic – how could `my_string.len()` work when `my_string` was a `String` (a smart pointer) and not a `&str` directly?
+`String`, `Vec`, and `Box` are smart pointers, yet you call methods on them as if they were the data they hold. `my_string.len()` works even though `len` is defined on `str`, not on `String`. When I first noticed this, it felt like a bit of Rust magic.
 
-The answer, my friends, lies in two powerful traits: `Deref` and `DerefMut`. These are the unsung heroes that make Rust's smart pointers so ergonomic and intuitive. Let's dive in and unravel this "magic" together!
+The mechanism is two traits, `Deref` and `DerefMut`, plus two compiler rules that use them: auto-deref for method calls and deref coercion for references. Together they let a wrapper behave like its contents without you writing `*` everywhere.
 
-## The "Aha!" Moment with Smart Pointers
+> **Personal Note**: It clicked for me when I realized `Deref` wasn't just about the `*` operator. It lets smart pointers act like the data they contain, especially in method calls, and once I saw that, much of the standard library suddenly made sense.
 
-When I started with Rust, I knew about pointers from other languages. Usually, to get to the data a pointer points to, you need to explicitly dereference it, often with a `*` or an `->`. Rust has this too, but it also has something more elegant for many common cases: **Deref coercion**.
+## Call Methods Through a Smart Pointer
 
-> **Personal Note**: My "aha!" moment came when I realized `Deref` wasn't just about the `*` operator. It was a gateway, allowing smart pointers to act *like* the data they contained in many situations, especially method calls. It suddenly made so much of the standard library feel incredibly well-designed.
-
-## What is `Deref`? The Gateway to Inner Data
-
-At its heart, the `Deref` trait allows you to customize the behavior of the dereference operator (`*`). When you implement `Deref` for your type, you're essentially telling Rust, "Hey, when someone tries to dereference an instance of my type, here's how to get an immutable reference to the inner data."
-
-The trait definition is surprisingly simple:
+`Deref` customizes the dereference operator `*`. Implementing it tells Rust how to get a shared reference to the data your type wraps:
 
 ```rust
 trait Deref {
@@ -28,58 +23,73 @@ trait Deref {
 }
 ```
 
-*   `Target`: This associated type specifies what type `*self` will evaluate to.
-*   `deref(&self) -> &Self::Target`: This method takes an immutable reference to `self` and returns an immutable reference to the `Target` type.
+- `Target` is the type that `*value` evaluates to.
+- `deref` takes `&self` and returns `&Self::Target`.
 
-**How Rust enables method call syntax on smart pointers:**
+When you call `u.foo()` and the type `U` has no method `foo`, Rust looks for `foo` on `*u`, the `Target` type, borrowing it as needed. If that type also implements `Deref`, the search continues another level, and so on. This is auto-deref.
 
-This is where **Deref coercion** shines. If you have a type `U` that implements `Deref<Target = T>`, and you try to call a method `foo()` on an instance of `U` (`u.foo()`), Rust will do the following if `U` itself doesn't have `foo()`:
-
-1.  Check if `&T` (the result of `*u`) has the method `foo()`. If yes, it calls `(*u).foo()`.
-2.  If not, and if `T` itself implements `Deref`, Rust will try to dereference `T` as well, and so on. This can happen multiple times.
-
-This is why you can call `&str` methods on a `String` directly, or slice methods on a `Vec<T>`. `String` implements `Deref<Target = str>`, and `Vec<T>` implements `Deref<Target = [T]>`.
+`String` implements `Deref<Target = str>` and `Vec<T>` implements `Deref<Target = [T]>`, so `str` and slice methods are available on both:
 
 ```rust
 fn main() {
     let s = String::from("Hello, Rustaceans!");
-    // String implements Deref<Target=str>
-    // So we can call &str methods directly on s
-    println!("Length: {}", s.len()); // Same as (*s).len() or (&s[..]).len()
+    // `len` and `starts_with` are defined on str
+    println!("Length: {}", s.len());
     assert!(s.starts_with("Hello"));
 
     let v = vec![1, 2, 3];
-    // Vec<T> implements Deref<Target=[T]>
-    println!("First element: {}", v[0]); // Indexing is via Deref
-    assert_eq!(v.get(0), Some(&1));
+    // `first` and `contains` are defined on [T]
+    assert_eq!(v.first(), Some(&1));
+    assert!(v.contains(&2));
 }
 ```
 
-## And Then There Was `DerefMut`: For Mutable Access
+Indexing with `v[0]` is a different mechanism: `Vec<T>` implements the `Index` trait directly.
 
-What if you need to *change* the data a smart pointer holds? That's where `DerefMut` comes in. It's the mutable counterpart to `Deref`.
+## Pass `&String` Where `&str` Is Expected
+
+The second rule, deref coercion, applies when a reference has the wrong type. If `U: Deref<Target = T>`, Rust converts `&U` to `&T` wherever a `&T` is expected, repeating the step as many times as needed:
+
+```rust
+fn greet(name: &str) {
+    println!("Hello, {name}!");
+}
+
+fn main() {
+    let owned = String::from("Ferris");
+    let boxed = Box::new(String::from("Corro"));
+
+    greet(&owned); // &String -> &str
+    greet(&boxed); // &Box<String> -> &String -> &str
+}
+```
+
+This is why functions should usually take `&str` or `&[T]` rather than `&String` or `&Vec<T>`: callers holding any of the owning types can still pass them.
+
+## Mutate Through the Pointer with `DerefMut`
+
+`DerefMut` is the mutable counterpart. It requires `Deref`, and returns `&mut Self::Target`:
 
 ```rust
 trait DerefMut: Deref {
     fn deref_mut(&mut self) -> &mut Self::Target;
 }
 ```
-Notice that `DerefMut` itself requires `Deref` to be implemented. The `deref_mut` method takes a mutable reference to `self` and returns a mutable reference to the `Target`.
 
-This allows smart pointers like `Box<T>` to give mutable access to the value they own on the heap.
+It lets `Box<T>` hand out mutable access to the value it owns on the heap:
 
 ```rust
 fn main() {
     let mut x = Box::new(String::from("initial"));
-    // Box<T> implements DerefMut<Target=T>
-    x.push_str(" content"); // (*x).push_str(" content")
-    println!("{}", x); // Prints "initial content"
+    // Box<String> implements DerefMut<Target = String>
+    x.push_str(" content");
+    println!("{x}"); // initial content
 }
 ```
 
-## Implementing Custom Smart Pointers
+## Build Your Own Smart Pointer
 
-Let's build a simple custom smart pointer, `MyBox<T>`, similar to `Box<T>`, to see `Deref` and `DerefMut` in action. Our `MyBox<T>` will simply wrap a value of type `T`.
+A minimal `MyBox<T>`, similar to `Box<T>` but without the heap allocation, shows both traits at work:
 
 ```rust
 use std::ops::{Deref, DerefMut};
@@ -96,59 +106,52 @@ impl<T> Deref for MyBox<T> {
     type Target = T;
 
     fn deref(&self) -> &Self::Target {
-        &self.0 // Accessing the inner data
+        &self.0
     }
 }
 
 impl<T> DerefMut for MyBox<T> {
     fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0 // Accessing the inner data mutably
+        &mut self.0
     }
 }
 
 fn main() {
     let mut smart_string = MyBox::new(String::from("Hello"));
 
-    // Using Deref: Calling a String method
-    println!("Length: {}", smart_string.len()); // Compiles thanks to Deref!
+    // Deref: call a String method
+    println!("Length: {}", smart_string.len());
 
-    // Using DerefMut: Modifying the String
-    smart_string.push_str(", World!");       // Compiles thanks to DerefMut!
-    println!("{}", *smart_string);           // Prints "Hello, World!"
+    // DerefMut: modify the String
+    smart_string.push_str(", World!");
+    println!("{}", *smart_string); // Hello, World!
 
-    // Explicit dereferencing also works
+    // Explicit dereferencing works too
     let immutable_ref: &String = &*smart_string;
-    println!("Immutable ref: {}", immutable_ref);
+    println!("Immutable ref: {immutable_ref}");
 
     let mutable_ref: &mut String = &mut *smart_string;
     mutable_ref.make_ascii_uppercase();
-    println!("Uppercase: {}", mutable_ref);
+    println!("Uppercase: {mutable_ref}");
 }
 ```
-In this `MyBox<T>` example:
-*   `deref` returns an immutable reference to the `T` inside `MyBox`.
-*   `deref_mut` returns a mutable reference to the `T` inside `MyBox`.
 
-This allows us to call `String` methods directly on `smart_string`, even though `smart_string` is a `MyBox<String>`.
+`deref` returns a shared reference to the `T` inside `MyBox`, and `deref_mut` returns a mutable one. That is all it takes for `String` methods to work on a `MyBox<String>`.
 
-## Common Pitfalls and Best Practices
+## Implement Deref Only for Pointer-Like Types
 
-1.  **Overuse/Misuse of `Deref`**: `Deref` should primarily be used for smart pointer types that "manage" another type. Don't implement `Deref` just to get "inheritance-like" behavior or to provide a convenient alias if your type isn't fundamentally a pointer or wrapper. This can make code confusing.
-    *   **Good**: `Box<T>`, `Rc<T>`, `String` (points to `str`), `Vec<T>` (points to `[T]`).
-    *   **Maybe Not So Good**: Implementing `Deref` for a `User` struct to get a `&String` for its `name` field. It's usually clearer to provide a `user.name()` method.
+- **Keep `Deref` for wrappers.** It suits types that manage another value: `Box<T>`, `Rc<T>`, `String` over `str`, `Vec<T>` over `[T]`. Implementing `Deref` on a `User` struct to reach its `name` field imitates inheritance and confuses readers. A `user.name()` method is clearer.
+- **Remember coercion can hide what's happening.** If a method call doesn't seem to belong to the type you expect, auto-deref may have found it a level down. An editor with rust-analyzer can show you where it resolved.
+- **Use `AsRef` or `Borrow` for conversions.** `Deref` is for types where `*value` makes sense. `AsRef<T>` and `Borrow<T>` are general traits for cheap reference conversions; `String` implements `AsRef<str>`, and so do types that aren't pointers at all.
+- **Be explicit when it reads better.** If implicit coercions pile up, write `*value` or call a method like `value.as_slice()` to make the intent clear.
 
-2.  **Deref Coercion Can Be Surprising**: While powerful, sometimes Deref coercion can hide what's actually happening. If you see a method call that doesn't seem to belong to the type you think it is, remember that Deref coercion might be at play. Using an IDE with good Rust support can help trace these.
+:::tip
+`Pin<P>` builds on `Deref` too: it wraps a pointer and reaches the value through it. See [Understanding Pin in Rust](/posts/understanding-pin-rust/) for how that is used to keep futures from moving.
+:::
 
-3.  **`Deref` vs. `AsRef`/`Borrow`**:
-    *   `Deref` is for types that *are* smart pointers. The `*` operator should make sense.
-    *   `AsRef<T>` and `Borrow<T>` are more general traits for providing a reference to an internal type `T`. They are often used for cheap reference-to-reference conversions. A type might implement `AsRef<str>` without being a smart pointer itself. For example, `String` implements `AsRef<str>`.
+## Further Reading
 
-4.  **Explicit is Sometimes Better**: If the code becomes unclear due to too many implicit Deref coercions, don't be afraid to use explicit dereferencing (`*value`) or method calls (`value.as_slice()`) to make the intent clearer.
-
-## Conclusion: The Unseen Convenience
-
-`Deref` and `DerefMut` are cornerstone traits in Rust that provide immense ergonomic benefits, especially when working with smart pointers and collections. They allow types to seamlessly "act like" the data they wrap, reducing boilerplate and making code more intuitive.
-
-Understanding how Deref coercion works demystifies a lot of Rust's "magic" and empowers you to write more idiomatic and effective Rust code. So next time you call `.len()` on a `String`, give a little nod to `Deref` working diligently behind the scenes!
-
-Happy (smart) pointing! 🦀✨
+- [The `Deref` trait](https://doc.rust-lang.org/std/ops/trait.Deref.html) in the standard library
+- [Treating Smart Pointers Like Regular References with `Deref`](https://doc.rust-lang.org/book/ch15-02-deref.html) in The Rust Programming Language
+- [Only smart pointers implement `Deref`](https://rust-lang.github.io/api-guidelines/predictability.html#c-deref) in the Rust API Guidelines
+- [Understanding Pin in Rust: Move Semantics and Safety](/posts/understanding-pin-rust/) on this blog
