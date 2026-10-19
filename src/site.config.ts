@@ -56,6 +56,12 @@ export const menuLinks: Array<{ title: string; path: string }> = [
 	},
 ];
 
+// The consultancy behind /consulting/; its JSON-LD @id is shared by the Person and ProfessionalService nodes
+export const consultancy = {
+	name: "Shariff Consultancy",
+	path: "/consulting/",
+};
+
 // Used by the social list on the home page and as `sameAs` in the Person JSON-LD.
 // Find icons via https://www.astroicon.dev/guides/customization/#open-source-icon-sets (only @iconify-json/mdi is installed)
 export const socialLinks: Array<{

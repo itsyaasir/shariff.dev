@@ -33,6 +33,8 @@ export interface SiteMeta {
 	/** Adds a robots noindex and drops the canonical link */
 	noindex?: boolean;
 	ogImage?: string | undefined;
+	/** Extra JSON-LD nodes for this page, added to the site-wide @graph */
+	schema?: Record<string, unknown>[];
 	title: string;
 }
 

@@ -1,11 +1,11 @@
 ---
-import { siteConfig, socialLinks } from "@/site-config";
+import { consultancy, siteConfig, socialLinks } from "@/site-config";
 import type { SiteMeta } from "@/types";
 import "../styles/global.css";
 
 type Props = SiteMeta;
 
-const { article, description, noindex, ogImage, title } = Astro.props;
+const { article, description, noindex, ogImage, schema = [], title } = Astro.props;
 
 const titleSeparator = "•";
 // Google cuts titles at about 60 characters; drop the site name before the page's own words
@@ -38,9 +38,10 @@ const person = {
 	worksFor: [
 		{ "@type": "Organization", name: "IOTA Foundation", url: "https://www.iota.org/" },
 		{
+			"@id": new URL(`${consultancy.path}#organization`, Astro.site).href,
 			"@type": "Organization",
-			name: "Shariff Consultancy",
-			url: new URL("/consulting/", Astro.site).href,
+			name: consultancy.name,
+			url: new URL(consultancy.path, Astro.site).href,
 		},
 	],
 };
@@ -68,9 +69,29 @@ const blogPosting = article && {
 	publisher: { "@id": person["@id"] },
 	url: canonicalURL.href,
 };
+// https://developers.google.com/search/docs/appearance/structured-data/breadcrumb
+const breadcrumbs = article && {
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{ name: "Home", url: siteURL },
+		{ name: "Blog", url: new URL("/posts/", Astro.site).href },
+		{ name: title, url: canonicalURL.href },
+	].map(({ name, url }, index) => ({
+		"@type": "ListItem",
+		item: url,
+		name,
+		position: index + 1,
+	})),
+};
 const jsonLd = {
 	"@context": "https://schema.org",
-	"@graph": [person, website, ...(blogPosting ? [blogPosting] : [])],
+	"@graph": [
+		person,
+		website,
+		...(blogPosting ? [blogPosting] : []),
+		...(breadcrumbs ? [breadcrumbs] : []),
+		...schema,
+	],
 };
 ---
 
@@ -84,7 +105,15 @@ const jsonLd = {
 <link href="/icon.svg" rel="icon" type="image/svg+xml" />
 <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
 <link href="/manifest.webmanifest" rel="manifest" />
-{noindex ? <meta content="noindex" name="robots" /> : <link href={canonicalURL} rel="canonical" />}
+{noindex ? (
+	<meta content="noindex" name="robots" />
+) : (
+	<>
+		<link href={canonicalURL} rel="canonical" />
+		{/* Lets Google show the full-size OG image in Discover and image results */}
+		<meta content="max-image-preview:large" name="robots" />
+	</>
+)}
 
 {/* Primary Meta Tags */}
 <meta content={description} name="description" />
