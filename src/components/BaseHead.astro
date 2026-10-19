@@ -21,10 +21,26 @@ const siteURL = new URL("/", Astro.site).href;
 const person = {
 	"@id": `${siteURL}#person`,
 	"@type": "Person",
+	address: { "@type": "PostalAddress", addressCountry: "KE", addressLocality: "Nairobi" },
 	jobTitle: "Software Engineer",
+	knowsAbout: [
+		"Rust",
+		"Distributed systems",
+		"Blockchain infrastructure",
+		"WebAssembly",
+		"TypeScript",
+	],
 	name: siteConfig.author,
 	sameAs: socialLinks.filter(({ link }) => link.startsWith("https://")).map(({ link }) => link),
 	url: siteURL,
+	worksFor: [
+		{ "@type": "Organization", name: "IOTA Foundation", url: "https://www.iota.org/" },
+		{
+			"@type": "Organization",
+			name: "Shariff Consultancy",
+			url: new URL("/consulting/", Astro.site).href,
+		},
+	],
 };
 const website = {
 	"@id": `${siteURL}#website`,
