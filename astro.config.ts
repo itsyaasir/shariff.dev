@@ -1,22 +1,22 @@
 import fs from "node:fs";
-import { unified } from "@astrojs/markdown-remark";
+import { parseFrontmatter, unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import partytown from "@astrojs/partytown";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, envField } from "astro/config";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
-import { defineConfig, envField } from "astro/config";
-import { expressiveCodeOptions } from "./src/site.config";
-
-// Remark plugins
+import rehypeExternalLinks from "rehype-external-links";
+import rehypeUnwrapImages from "rehype-unwrap-images";
 import remarkDirective from "remark-directive"; /* Handle ::: directives as nodes */
 import { remarkAdmonitions } from "./src/plugins/remark-admonitions"; /* Add admonitions */
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
+import { expressiveCodeOptions } from "./src/site.config";
+import { MIN_POSTS_TO_INDEX_TAG, parsePostDate } from "./src/utils/post-frontmatter";
 
-// Rehype plugins
-import rehypeExternalLinks from "rehype-external-links";
-import rehypeUnwrapImages from "rehype-unwrap-images";
+const site = "https://shariff.dev/";
+const sitemapData = readSitemapData();
 
 // https://astro.build/config
 export default defineConfig({
@@ -44,7 +44,13 @@ export default defineConfig({
 	integrations: [
 		expressiveCode(expressiveCodeOptions),
 		icon(),
-		sitemap(),
+		sitemap({
+			filter: (page) => !sitemapData.thinTagPages.has(page),
+			serialize(item) {
+				const lastmod = sitemapData.lastmod.get(item.url);
+				return lastmod ? { ...item, lastmod } : item;
+			},
+		}),
 		mdx(),
 		partytown({
 			config: {
@@ -74,11 +80,10 @@ export default defineConfig({
 	},
 	// https://docs.astro.build/en/guides/prefetch/
 	prefetch: true,
-	redirects: {
-		"/consultant": "/consulting",
-	},
-	// ! Please remember to replace the following site property with your own domain
-	site: "https://shariff.dev/",
+	// Redirects live in public/_redirects so Cloudflare Pages answers with a real 301
+	site,
+	// Pages build to directories; links without the slash cost a redirect
+	trailingSlash: "always",
 	vite: {
 		optimizeDeps: {
 			exclude: ["@resvg/resvg-js"],
@@ -86,6 +91,37 @@ export default defineConfig({
 		plugins: [tailwindcss(), rawFonts([".ttf", ".woff"])],
 	},
 });
+
+// astro:content isn't available in the config, so read post frontmatter straight from disk
+function readSitemapData() {
+	const dir = "./src/content/post";
+	const posts = fs
+		.readdirSync(dir)
+		.filter((file) => /\.mdx?$/.test(file))
+		.map((file) => ({
+			data: parseFrontmatter(fs.readFileSync(`${dir}/${file}`, "utf8")).frontmatter,
+			slug: file.replace(/\.mdx?$/, ""),
+		}))
+		.filter(({ data }) => !data.draft);
+
+	const lastmod = new Map<string, string>();
+	const tagCounts = new Map<string, number>();
+	for (const { data, slug } of posts) {
+		lastmod.set(
+			new URL(`/posts/${slug}/`, site).href,
+			parsePostDate(data.updatedDate ?? data.publishDate).toISOString(),
+		);
+		const tags = new Set<string>((data.tags ?? []).map((tag: string) => tag.toLowerCase()));
+		for (const tag of tags) tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+	}
+
+	const thinTagPages = new Set(
+		[...tagCounts]
+			.filter(([, count]) => count < MIN_POSTS_TO_INDEX_TAG)
+			.map(([tag]) => new URL(`/tags/${tag}/`, site).href),
+	);
+	return { lastmod, thinTagPages };
+}
 
 function rawFonts(ext: string[]) {
 	return {

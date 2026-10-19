@@ -29,7 +29,7 @@ export function sortMDByDate(posts: CollectionEntry<"post">[]) {
  */
 export function groupPostsByYear(posts: CollectionEntry<"post">[]) {
 	return posts.reduce<Record<string, CollectionEntry<"post">[]>>((acc, post) => {
-		const year = getPostSortDate(post).getFullYear();
+		const year = getPostSortDate(post).getUTCFullYear();
 		if (!acc[year]) {
 			acc[year] = [];
 		}
@@ -62,4 +62,24 @@ export function getUniqueTagsWithCount(posts: CollectionEntry<"post">[]): [strin
 			new Map<string, number>(),
 		),
 	].sort((a, b) => b[1] - a[1]);
+}
+
+/** returns up to `limit` posts sharing the most tags with `post`, newest first on ties
+ *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
+ *  */
+export function getRelatedPosts(
+	post: CollectionEntry<"post">,
+	posts: CollectionEntry<"post">[],
+	limit = 3,
+) {
+	const tags = new Set(post.data.tags);
+	return sortMDByDate(posts.filter(({ id }) => id !== post.id))
+		.map((other) => ({
+			other,
+			shared: other.data.tags.filter((tag) => tags.has(tag)).length,
+		}))
+		.filter(({ shared }) => shared > 0)
+		.sort((a, b) => b.shared - a.shared)
+		.slice(0, limit)
+		.map(({ other }) => other);
 }

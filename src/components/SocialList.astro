@@ -1,38 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-
-/**
-	Uses https://www.astroicon.dev/getting-started/
-	Find icons via guide: https://www.astroicon.dev/guides/customization/#open-source-icon-sets
-	Only installed pack is: @iconify-json/mdi
-*/
-const socialLinks: {
-	friendlyName: string;
-	isWebmention?: boolean;
-	link: string;
-	name: string;
-}[] = [
-	{
-		friendlyName: "Github",
-		link: "https://github.com/itsyaasir",
-		name: "mdi:github",
-	},
-	{
-		friendlyName: "X",
-		link: "https://x.com/itsyaasir",
-		name: "mdi:twitter",
-	},
-	{
-		friendlyName: "LinkedIn",
-		link: "https://linkedin.com/in/itsyaasir",
-		name: "mdi:linkedin",
-	},
-	{
-		friendlyName: "Mail",
-		link: "mailto:yasir@shariff.dev",
-		name: "mdi:email",
-	},
-];
+import { socialLinks } from "@/site-config";
 ---
 
 <div class="flex flex-wrap items-end gap-x-2">

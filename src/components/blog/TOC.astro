@@ -13,8 +13,11 @@ const toc = generateToc(headings);
 ---
 
 <aside class="sticky top-20 order-2 -me-32 hidden basis-64 lg:block">
-	<h2 class="font-semibold text-accent-2">Table of Contents</h2>
+	{/* Not a heading: the TOC renders before the post's h1 */}
+	<p class="font-semibold text-accent-2">Table of Contents</p>
 	<ul class="mt-4 text-xs">
-		{toc.map((heading) => <TOCHeading heading={heading} />)}
+		{toc.map((heading) => (
+			<TOCHeading heading={heading} />
+		))}
 	</ul>
 </aside>

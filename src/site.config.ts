@@ -10,6 +10,8 @@ export const siteConfig: SiteConfig = {
 		options: {
 			day: "numeric",
 			month: "short",
+			// Post dates are stored as midnight UTC, so format them in UTC too
+			timeZone: "UTC",
 			year: "numeric",
 		},
 	},
@@ -38,19 +40,49 @@ export const menuLinks: Array<{ title: string; path: string }> = [
 	},
 	{
 		title: "About",
-		path: "/about",
+		path: "/about/",
 	},
 	{
 		title: "Blog",
-		path: "/posts",
+		path: "/posts/",
 	},
 	{
 		title: "Work",
-		path: "/work",
+		path: "/work/",
 	},
 	{
 		title: "Consulting",
-		path: "/consulting",
+		path: "/consulting/",
+	},
+];
+
+// Used by the social list on the home page and as `sameAs` in the Person JSON-LD.
+// Find icons via https://www.astroicon.dev/guides/customization/#open-source-icon-sets (only @iconify-json/mdi is installed)
+export const socialLinks: Array<{
+	friendlyName: string;
+	isWebmention?: boolean;
+	link: string;
+	name: string;
+}> = [
+	{
+		friendlyName: "Github",
+		link: "https://github.com/itsyaasir",
+		name: "mdi:github",
+	},
+	{
+		friendlyName: "X",
+		link: "https://x.com/itsyaasir",
+		name: "mdi:twitter",
+	},
+	{
+		friendlyName: "LinkedIn",
+		link: "https://linkedin.com/in/itsyaasir",
+		name: "mdi:linkedin",
+	},
+	{
+		friendlyName: "Mail",
+		link: "mailto:yasir@shariff.dev",
+		name: "mdi:email",
 	},
 ];
 

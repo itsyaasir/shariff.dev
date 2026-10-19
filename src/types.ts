@@ -21,9 +21,17 @@ export interface PaginationLink {
 	url: string;
 }
 
+export interface ArticleMeta {
+	modifiedTime?: string | undefined;
+	publishedTime: string;
+	tags: string[];
+}
+
 export interface SiteMeta {
-	articleDate?: string | undefined;
+	article?: ArticleMeta | undefined;
 	description?: string;
+	/** Adds a robots noindex and drops the canonical link */
+	noindex?: boolean;
 	ogImage?: string | undefined;
 	title: string;
 }

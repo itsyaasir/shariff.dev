@@ -4,11 +4,13 @@ import { monogram } from "@/utils/monogram";
 import Search from "../Search.astro";
 import ThemeToggle from "../ThemeToggle.astro";
 
-// Pages build to directories, so URLs end in "/" while menuLinks paths don't.
-const currentPath = new URL(Astro.request.url).pathname.replace(/\/+$/, "") || "/";
+// Compare paths without their trailing "/" so "/posts/" and "/posts" match.
+const stripSlash = (path: string) => path.replace(/\/+$/, "") || "/";
+const currentPath = stripSlash(new URL(Astro.request.url).pathname);
 
 // "page" for the link to this exact page, "true" for its section (Blog on a post).
-function currentState(path: string) {
+function currentState(linkPath: string) {
+	const path = stripSlash(linkPath);
 	if (currentPath === path) return "page";
 	if (path !== "/" && currentPath.startsWith(`${path}/`)) return "true";
 	return false;

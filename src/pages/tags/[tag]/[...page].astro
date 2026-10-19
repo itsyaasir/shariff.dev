@@ -1,10 +1,12 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import Pagination from "@/components/Paginator.astro";
+import type { GetStaticPaths, Page } from "astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
+import Pagination from "@/components/Paginator.astro";
 import { getAllPosts, getUniqueTags, sortMDByDate } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
-import type { GetStaticPaths, Page } from "astro";
+import { siteConfig } from "@/site-config";
+import { MIN_POSTS_TO_INDEX_TAG } from "@/utils/post-frontmatter";
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 	const allPosts = await getAllPosts();
@@ -28,8 +30,9 @@ const { page } = Astro.props;
 const { tag } = Astro.params;
 
 const meta = {
-	description: `View all posts with the tag - ${tag}`,
-	title: `Tag: ${tag}`,
+	description: `${page.total} ${page.total === 1 ? "post" : "posts"} by ${siteConfig.author} tagged ${tag}, newest first.`,
+	noindex: page.total < MIN_POSTS_TO_INDEX_TAG,
+	title: `Posts tagged ${tag}`,
 };
 
 const paginationProps = {
@@ -50,19 +53,19 @@ const paginationProps = {
 
 <PageLayout meta={meta}>
 	<h1 class="title mb-6 flex items-center">
-		<a class="text-accent sm:hover:underline" href="/tags/">Tags</a>
+		<a class="text-accent sm:hover:underline" href="/tags/">
+			Tags
+		</a>
 		<span class="me-3 ms-2">→</span>
 		<span class="text-xl">#{tag}</span>
 	</h1>
 	<section aria-label="Blog post list">
 		<ul class="space-y-8">
-			{
-				page.data.map((p) => (
-					<li class="flex flex-col flex-wrap gap-2 sm:flex-row [&_q]:basis-full">
-						<PostPreview as="h2" post={p} withDesc />
-					</li>
-				))
-			}
+			{page.data.map((p) => (
+				<li class="flex flex-col flex-wrap gap-2 sm:flex-row [&_q]:basis-full">
+					<PostPreview as="h2" post={p} withDesc />
+				</li>
+			))}
 		</ul>
 		<Pagination {...paginationProps} />
 	</section>

@@ -1,6 +1,6 @@
 ---
 title: "The Magic of Deref and DerefMut: Rust's Smart Pointer Protocol"
-description: "Unlock the secrets behind Rust's smart pointers! Discover how Deref and DerefMut make them so intuitive and powerful."
+description: "How Deref and DerefMut let String, Vec, and Box act like the data they hold, how to implement them for your own types, and when not to."
 publishDate: "16 May 2025"
 tags: ["rust", "smart-pointers", "deref", "derefmut", "traits"]
 ---

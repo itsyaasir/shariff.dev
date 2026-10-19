@@ -1,6 +1,6 @@
 ---
 title: "Understanding Pin in Rust: Move Semantics and Safety"
-description: "Explore the fascinating world of Pin in Rust - what it is, why it exists, and how it helps us write safe async code."
+description: "What Pin guarantees, why self-referential futures need it, and how to pin values safely when writing async Rust, with a stream example."
 publishDate: "19 December 2024"
 tags: ["rust", "pin", "async", "memory-management"]
 ---
