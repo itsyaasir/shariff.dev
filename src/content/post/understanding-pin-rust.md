@@ -2,45 +2,42 @@
 title: "Understanding Pin in Rust: Move Semantics and Safety"
 description: "What Pin guarantees, why self-referential futures need it, and how to pin values safely when writing async Rust, with a stream example."
 publishDate: "19 December 2024"
+updatedDate: "19 October 2026"
 tags: ["rust", "pin", "async", "memory-management"]
 ---
 
-Have you ever wondered how Rust manages to make async/await work safely under the hood? I sure did, and for the longest time, `Pin` was one of those concepts that just wouldn't click. After countless hours of reading, experimenting, and banging my head against the wall, I finally had that "aha!" moment. Let me share my journey of understanding Pin with you.
+Rust's ownership rules let you move almost any value: hand it to a function, push it into a `Vec`, return it. Then async code arrives and `Pin` shows up, a type whose whole job is to say "this value must not move again". For a long time it was the concept that wouldn't click for me.
 
-## The Struggle is Real
+`Pin` exists because the futures the compiler builds from `async fn` can hold references into themselves. Moving such a future would leave those references pointing at the old location, so `Pin` makes moving it impossible in safe code once it has started running.
 
-If you're like me, you probably started with Rust's ownership system ([check out the Rust Book chapter on ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)) and thought you had it all figured out. Then async programming came along, and suddenly you're hearing about this thing called `Pin` that seems to break all the rules about moving values that you just learned!
+> **Personal Note**: What finally made it click for me was seeing that `Pin` isn't an arbitrary restriction. It solves a concrete problem that appears when the compiler turns async functions into state machines.
 
-> **Personal Note**: What finally made it click for me was understanding that Pin isn't just some arbitrary restriction - it's solving a real problem that comes up when we try to optimize async code.
+## See Why Async Functions Need Pin
 
-## What is Pin?
-
-At its core, `Pin` is a wrapper type that prevents values from being moved in memory. But why would we need such a thing? The answer lies in the heart of Rust's async programming model.
-
-> **Note**: Before diving deep into Pin, make sure you're comfortable with Rust's ownership system and basic async concepts.
-
-## The Problem Pin Solves
-
-Consider this seemingly innocent piece of code:
+Consider an async function that borrows a local across an `.await`:
 
 ```rust
-async fn self_referential() {
-    let mut data = vec![1, 2, 3];
-    let reference = &data[0];
-    // What happens if data moves in memory here? 🤔
-    println!("First element: {}", *reference);
+async fn print_first() {
+    let data = [1, 2, 3];
+    let first = &data[0];
+    tick().await;
+    println!("First element: {first}");
 }
+
+async fn tick() {}
 ```
 
-In a synchronous world, this code is fine. But in async Rust, the future created by this function might be moved around in memory between `.await` points. If our data structure contains self-references (like many future implementations do), moving it could invalidate those references!
+The compiler turns `print_first` into a state machine. While it waits at `tick().await`, both `data` and `first` are stored inside the future, and `first` points at `data`. The future is self-referential.
 
-## Enter Pin 📌
+Moving the future before its first poll is harmless, because nothing has been borrowed yet. Moving it after it has paused at the `.await` would leave `first` pointing at memory the future no longer occupies. That is why `Future::poll` takes `self: Pin<&mut Self>`: to poll a future at all, you must first promise it will stay where it is.
 
-`Pin` comes to the rescue by guaranteeing that the data it points to won't move. Here's how we use it:
+## Pin a Self-Referential Struct on the Heap
+
+You can build the same shape by hand. This struct stores a pointer to one of its own fields:
 
 ```rust
-use std::pin::Pin;
 use std::marker::PhantomPinned;
+use std::pin::Pin;
 
 struct SelfReferential {
     data: String,
@@ -56,25 +53,39 @@ impl SelfReferential {
             _pin: PhantomPinned,
         });
 
-        let self_ptr: *const String = &boxed.data;
-        boxed.reference = self_ptr;
+        // The heap allocation doesn't move when the Box does, so this address stays valid
+        boxed.reference = &boxed.data;
 
-        Pin::new(boxed)
+        Box::into_pin(boxed)
     }
+
+    fn reference(self: Pin<&Self>) -> &String {
+        // SAFETY: `reference` points at `data`, which can't move while the struct is pinned
+        unsafe { &*self.reference }
+    }
+}
+
+fn main() {
+    let value = SelfReferential::new("hello".to_string());
+    println!("{}", value.as_ref().reference());
 }
 ```
 
-> **Warning**: The above code uses raw pointers for demonstration. In real async code, the compiler handles these details for you!
+`Box::into_pin` turns the `Box` into a `Pin<Box<Self>>`. `Pin::new` would not compile here, because it only accepts pointers to `Unpin` types and `PhantomPinned` removes that trait.
 
-## 🎯 Key Concepts
+:::warning
+The raw pointer and `unsafe` block are for demonstration. In async code the compiler creates these self-references for you, and `Pin` is what keeps them sound.
+:::
 
-1. **`Pin<P>`** - A type that wraps a pointer `P` and ensures the pointed-to value won't move
-2. **`Unpin`** - A trait that types implement to opt out of pinning guarantees
-3. **`PhantomPinned`** - A marker type that prevents a type from implementing `Unpin`
+## Know What Pin, Unpin, and PhantomPinned Do
 
-## Real-World Example: Stream Processing
+- **`Pin<P>`** wraps a pointer `P`, such as `Box<T>` or `&mut T`, and guarantees the value it points to won't move again until it is dropped. It reaches that value through `Deref`, which I covered in [Deref and DerefMut: Rust's Smart Pointer Protocol](/posts/magic-of-deref-rust/).
+- **`Unpin`** is an auto trait for types that are safe to move even while pinned. The compiler implements it for almost every type, and pinning an `Unpin` value changes nothing.
+- **`PhantomPinned`** is a marker field that makes a type `!Unpin`, so the pinning guarantee applies to it.
 
-Here's a practical example where `Pin` shines - implementing a custom stream:
+## Implement a Stream for an Unpin Type
+
+Hand-written `Future` and `Stream` implementations receive `self: Pin<&mut Self>`. When the type is `Unpin`, you can get a plain `&mut Self` back with `get_mut`:
 
 ```rust
 use std::pin::Pin;
@@ -89,10 +100,7 @@ struct CounterStream {
 impl Stream for CounterStream {
     type Item = u32;
 
-    fn poll_next(
-        self: Pin<&mut Self>,
-        _cx: &mut Context<'_>
-    ) -> Poll<Option<Self::Item>> {
+    fn poll_next(self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
         let me = self.get_mut();
 
         if me.count >= me.max {
@@ -105,26 +113,37 @@ impl Stream for CounterStream {
 }
 ```
 
-## 💡 Pro Tips
+`CounterStream` holds two `u32`s and no self-references, so it is `Unpin` automatically and `get_mut` is safe. If the stream wrapped a `!Unpin` field, such as another future, `get_mut` would not compile. The [`pin-project`](https://docs.rs/pin-project/latest/pin_project/) crate gives you safe pinned access to individual fields in that case.
 
-1. If your type doesn't contain self-references, implement `Unpin`
-2. Use `pin_utils` crate for testing pinned futures
-3. Let the async/await syntax handle pinning for you when possible
+## Pin Futures on the Stack with `pin!`
 
-> **Note**: Most of the time, you won't need to use `Pin` directly. It's primarily a tool for library authors and advanced async code.
+To poll a future yourself, you need a `Pin<&mut F>`. The `std::pin::pin!` macro, stable since Rust 1.68, pins a value on the stack without a heap allocation:
+
+```rust
+use std::future::Future;
+use std::pin::pin;
+use std::task::{Context, Poll};
+
+fn poll_once<F: Future>(future: F, cx: &mut Context<'_>) -> Poll<F::Output> {
+    let mut future = pin!(future);
+    future.as_mut().poll(cx)
+}
+```
+
+`as_mut` reborrows the pin, so you can poll the same future again later. When a pinned future has to outlive the current function, for example to store it in a struct or return it, use `Box::pin` instead.
+
+## Let `.await` Do the Pinning
+
+`.await` pins the future it waits on, and executors such as `tokio::spawn` pin the tasks they run. In application code you rarely write `Pin` at all.
+
+:::note
+Reach for `Pin` directly when you implement `Future` or `Stream` by hand, store futures in your own types, or poll a future more than once from a loop.
+:::
 
 ## Further Reading
 
-If you want to dive deeper into these concepts, here are some resources that helped me tremendously:
-
-1. [The Rust Async Book's chapter on Pin](https://rust-lang.github.io/async-book/04_pinning/01_chapter.html)
-2. [Rust Reference on Pin](https://doc.rust-lang.org/std/pin/index.html)
-3. [The Rust Book's chapter on Smart Pointers](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html) - essential background knowledge
-
-## Conclusion
-
-Looking back, I realize that understanding `Pin` was a crucial step in my Rust journey. While it might seem daunting at first (it certainly was for me!), it's one of those concepts that, once understood, makes you appreciate Rust's thoughtful design even more.
-
-Remember: If you're struggling with `Pin`, you're not alone! Take it step by step, experiment with the code examples, and eventually, it will click.
-
-Happy coding! 🦀✨
+- [The `std::pin` module](https://doc.rust-lang.org/std/pin/index.html) in the standard library
+- [Asynchronous Programming in Rust](https://rust-lang.github.io/async-book/), the async book
+- [Deref and DerefMut: Rust's Smart Pointer Protocol](/posts/magic-of-deref-rust/) on this blog
+- [The `pin-project` crate](https://docs.rs/pin-project/latest/pin_project/) on docs.rs
+- [Smart Pointers](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html) in The Rust Programming Language
