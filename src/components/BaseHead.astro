@@ -8,7 +8,9 @@ type Props = SiteMeta;
 const { article, description, noindex, ogImage, title } = Astro.props;
 
 const titleSeparator = "•";
-const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
+// Google cuts titles at about 60 characters; drop the site name before the page's own words
+const fullTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
+const siteTitle = fullTitle.length <= 60 ? fullTitle : title;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(ogImage ? ogImage : "/social-card/default.png", Astro.url).href;
 const xHandle = socialLinks
