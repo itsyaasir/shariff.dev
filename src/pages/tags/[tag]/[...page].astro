@@ -4,6 +4,7 @@ import type { GetStaticPaths, Page } from "astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import Pagination from "@/components/Paginator.astro";
 import { getAllPosts, getUniqueTags, sortMDByDate } from "@/data/post";
+import { tagIntros } from "@/data/tag-intros";
 import PageLayout from "@/layouts/Base.astro";
 import { siteConfig } from "@/site-config";
 import { MIN_POSTS_TO_INDEX_TAG } from "@/utils/post-frontmatter";
@@ -29,8 +30,12 @@ interface Props {
 const { page } = Astro.props;
 const { tag } = Astro.params;
 
+const intro = tag ? tagIntros[tag] : undefined;
+
 const meta = {
-	description: `${page.total} ${page.total === 1 ? "post" : "posts"} by ${siteConfig.author} tagged ${tag}, newest first.`,
+	description:
+		intro ??
+		`${page.total} ${page.total === 1 ? "post" : "posts"} by ${siteConfig.author} tagged ${tag}, newest first.`,
 	noindex: page.total < MIN_POSTS_TO_INDEX_TAG,
 	title: `Posts tagged ${tag}`,
 };
@@ -59,6 +64,7 @@ const paginationProps = {
 		<span class="me-3 ms-2">→</span>
 		<span class="text-xl">#{tag}</span>
 	</h1>
+	{intro && <p class="mb-8 max-w-prose leading-relaxed">{intro}</p>}
 	<section aria-label="Blog post list">
 		<ul class="space-y-8">
 			{page.data.map((p) => (
