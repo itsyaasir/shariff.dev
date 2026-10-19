@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import { consultancy } from "@/site-config";
 
 const meta = {
 	title: "Consulting",
@@ -79,9 +80,73 @@ const steps = [
 			"You get tests, documentation, and a walkthrough, so your team can own it after I leave.",
 	},
 ];
+
+const faqs = [
+	{
+		question: "What kind of work do you take on?",
+		answer:
+			"Rust where correctness or performance matters, blockchain infrastructure such as execution clients, JSON-RPC services, and RPC routing, and backends built on Kafka or Redpanda, WebSockets, and PostgreSQL. I also take products from requirements through production.",
+	},
+	{
+		question: "Do you only work on blockchain projects?",
+		answer:
+			"No. Blockchain infrastructure is one area. I also build and run Shipzen and PrismPOS, products used every day in logistics and business operations.",
+	},
+	{
+		question: "Do you work with teams outside Kenya?",
+		answer:
+			"Yes. I'm based in Nairobi, on East Africa Time (UTC+3), and work remotely with teams in any time zone.",
+	},
+	{
+		question: "Can you work in our existing codebase?",
+		answer:
+			"Yes. Scoping starts with reading your code or system, and the work lands in your repository as small reviewed changes.",
+	},
+	{
+		question: "How does an engagement start?",
+		answer:
+			"Email a few sentences about what you're building, where you need help, and when you'd like to start. I'll read the code or system and send back a written plan with what I'd do, what it costs, and what you get.",
+	},
+	{
+		question: "What do we get when the work is done?",
+		answer: "Tests, documentation, and a walkthrough, so your team can own the work after I leave.",
+	},
+];
+
+// https://schema.org/ProfessionalService, linked to the Person node in BaseHead by @id
+const organizationId = new URL(`${consultancy.path}#organization`, Astro.site).href;
+const schema = [
+	{
+		"@id": organizationId,
+		"@type": "ProfessionalService",
+		address: { "@type": "PostalAddress", addressCountry: "KE", addressLocality: "Nairobi" },
+		areaServed: "Worldwide",
+		description: meta.description,
+		email,
+		founder: { "@id": new URL("/#person", Astro.site).href },
+		hasOfferCatalog: {
+			"@type": "OfferCatalog",
+			itemListElement: services.map(({ description, name }) => ({
+				"@type": "Offer",
+				itemOffered: { "@type": "Service", description, name },
+			})),
+			name: "Consulting services",
+		},
+		name: consultancy.name,
+		url: new URL(consultancy.path, Astro.site).href,
+	},
+	{
+		"@type": "FAQPage",
+		mainEntity: faqs.map(({ answer, question }) => ({
+			"@type": "Question",
+			acceptedAnswer: { "@type": "Answer", text: answer },
+			name: question,
+		})),
+	},
+];
 ---
 
-<Base meta={meta}>
+<Base meta={{ ...meta, schema }}>
 	<section aria-labelledby="consulting-title">
 		<h1
 			id="consulting-title"
@@ -161,6 +226,20 @@ const steps = [
 				</li>
 			))}
 		</ol>
+	</section>
+
+	<section aria-labelledby="faq-title" class="mt-20">
+		<h2 id="faq-title" class="title mb-6 text-xl">
+			Common questions
+		</h2>
+		<dl class="divide-y divide-dashed divide-textColor/30 border-y border-dashed border-textColor/30">
+			{faqs.map((faq) => (
+				<div class="py-4">
+					<dt class="font-semibold text-accent-2">{faq.question}</dt>
+					<dd class="mt-1 leading-relaxed">{faq.answer}</dd>
+				</div>
+			))}
+		</dl>
 	</section>
 
 	<section
