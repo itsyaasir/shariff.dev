@@ -39,7 +39,7 @@
 		"unist-util-visit": "^5.1.0"
 	},
 	"devDependencies": {
-		"@astrojs/check": "^0.9.10",
+		"@astrojs/check": "^0.9.12",
 		"@biomejs/biome": "^2.5.15",
 		"@iconify-json/mdi": "^1.2.3",
 		"@pagefind/default-ui": "^1.5.2",
