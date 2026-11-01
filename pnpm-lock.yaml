@@ -176,8 +176,8 @@ importers:
         specifier: 8.1.0
         version: 8.1.0(@astrojs/markdown-remark@7.3.3(supports-color@5.5.0))(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(@astrojs/markdown-remark@7.3.3(supports-color@5.5.0))(@types/node@24.19.0)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
       '@astrojs/partytown':
-        specifier: ^2.1.8
-        version: 2.1.8
+        specifier: ^2.1.9
+        version: 2.1.9
       '@astrojs/rss':
         specifier: 4.0.19
         version: 4.0.19
@@ -471,8 +471,8 @@ packages:
       '@astrojs/markdown-remark':
         optional: true
 
-  '@astrojs/partytown@2.1.8':
-    resolution: {integrity: sha512-iCRNNPqvdQEORyAYC8jN8nTCN2wW66WS+Pft2fhqq52cj3GcWvzlAZlyfjtpCeiEYI0op6u5OtWqqItiS7INDA==}
+  '@astrojs/partytown@2.1.9':
+    resolution: {integrity: sha512-jAywLxinR9XRHH8NB4AOJL0cohFlqX+VWEsC9WUWTWNxfDun774rpi8DMaXPOieGjuAOSkr2BM5ejcdY/eZhsQ==}
 
   '@astrojs/prism@4.1.0':
     resolution: {integrity: sha512-zvRaL3MKTAXWfVQrHAlYtocRZWXBM6ruF3Bl7Lc7QgFHLRTfwMKo33KczlkvkXDY+qcytKhAWOT9dwUUYLUxAw==}
@@ -1102,8 +1102,8 @@ packages:
   '@prettier/parse-srcset@3.1.0':
     resolution: {integrity: sha512-FIRv2rZotO9NP/r66taYqD1zICpPiBbrECqjKV/xqNotqDxF7fLzzUeK+1RSRx9Tenk0DajR/GcRmTJ2qtHaKQ==}
 
-  '@qwik.dev/partytown@0.14.4':
-    resolution: {integrity: sha512-XGBgDuxgG7CsAs4PZ32GUmbD029nAeCR4VGyJRJnNp3r3uVjbZt8Dkxe8cw+f8xY6Dh8VI5cb3ygEZCqSftwtA==}
+  '@qwik.dev/partytown@1.0.2':
+    resolution: {integrity: sha512-27Oe9GpbrPHrJC+CWqwW5GA+h4mFyK3ilWByPfICgFQXTUFDAFa3hOIQsE1qBeZ6a847AcAEyBPsQV/CoZm4ig==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -3558,9 +3558,9 @@ snapshots:
     optionalDependencies:
       '@astrojs/markdown-remark': 7.3.3(supports-color@5.5.0)
 
-  '@astrojs/partytown@2.1.8':
+  '@astrojs/partytown@2.1.9':
     dependencies:
-      '@qwik.dev/partytown': 0.14.4
+      '@qwik.dev/partytown': 1.0.2
       mrmime: 2.0.1
 
   '@astrojs/prism@4.1.0':
@@ -4073,7 +4073,7 @@ snapshots:
 
   '@prettier/parse-srcset@3.1.0': {}
 
-  '@qwik.dev/partytown@0.14.4': {}
+  '@qwik.dev/partytown@1.0.2': {}
 
   '@resvg/resvg-js-android-arm-eabi@2.6.2':
     optional: true
