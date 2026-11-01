@@ -21,7 +21,7 @@
 		"@astrojs/partytown": "^2.1.8",
 		"@astrojs/rss": "4.0.19",
 		"@astrojs/sitemap": "3.7.4",
-		"astro": "7.4.0",
+		"astro": "7.4.4",
 		"astro-expressive-code": "0.44.2",
 		"astro-icon": "^1.2.0",
 		"cssnano": "^9.9.0",
